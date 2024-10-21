@@ -1,15 +1,25 @@
 import { Canvas } from "@react-three/fiber";
+import { useLocalStorage } from "@mantine/hooks";
+import {
+  LOCAL_CAMERA_CONTROLS_KEY,
+  LOCAL_VIZ_KEY,
+  VisualizationMap,
+} from "../utils/constants";
+import { CameraControls } from "@react-three/drei";
 
 const Visualizer = () => {
+  const [enableCameraControls] = useLocalStorage({
+    key: LOCAL_CAMERA_CONTROLS_KEY,
+    defaultValue: true,
+  });
+  const [viz] = useLocalStorage({ key: LOCAL_VIZ_KEY });
+  const vizElement = VisualizationMap[viz];
+
   return (
     <div className="w-screen h-screen">
       <Canvas>
-        <mesh>
-          <ambientLight intensity={0.2} />
-          <directionalLight color="red" position={[0, 0, 5]} />
-          <boxGeometry args={[2, 2, 2]} />
-          <meshStandardMaterial />
-        </mesh>
+        {vizElement}
+        {enableCameraControls && <CameraControls />}
       </Canvas>
     </div>
   );

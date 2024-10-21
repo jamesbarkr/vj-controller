@@ -11,10 +11,12 @@
   },
   "dependencies": {
     "@mantine/hooks": "^7.13.3",
+    "@react-three/drei": "^9.114.6",
     "@react-three/fiber": "^8.17.10",
     "@tabler/icons-react": "^3.19.0",
     "@trpc/client": "^11.0.0-rc.586",
     "@types/three": "^0.169.0",
+    "flowbite-react": "^0.10.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.27.0",
