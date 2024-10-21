@@ -38,7 +38,7 @@ const Dashboard = () => {
       </div>
       <ToggleSwitch
         checked={enableCameraControls}
-        label="Toggle me"
+        label="Camera controls"
         onChange={toggleEnableCameraControls}
       />
       <div className="flex space-x-6">
