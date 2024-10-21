@@ -4,6 +4,7 @@ import FirstScene from "../components/FirstScene";
 
 export const LOCAL_VIZ_KEY = "VJ-Controller__visualization";
 export const LOCAL_SCALE_KEY = "VJ-Controller__scale";
+export const LOCAL_CAMERA_CONTROLS_KEY = "VJ-Controller__camera_controls";
 
 export enum Visualization {
   CUBE = "cube",

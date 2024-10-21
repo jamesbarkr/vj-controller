@@ -1,14 +1,19 @@
 import { useLocalStorage } from "@mantine/hooks";
 import {
+  LOCAL_CAMERA_CONTROLS_KEY,
   LOCAL_SCALE_KEY,
   LOCAL_VIZ_KEY,
   Visualization,
 } from "../utils/constants";
 import { IconCube, IconPlayCard } from "@tabler/icons-react";
-import { Label, RangeSlider } from "flowbite-react";
+import { Label, RangeSlider, ToggleSwitch } from "flowbite-react";
 import { ChangeEvent } from "react";
 
 const Dashboard = () => {
+  const [enableCameraControls, toggleEnableCameraControls] = useLocalStorage({
+    key: LOCAL_CAMERA_CONTROLS_KEY,
+    defaultValue: true,
+  });
   const [viz, setViz] = useLocalStorage({
     key: LOCAL_VIZ_KEY,
     defaultValue: Visualization.CUBE,
@@ -31,6 +36,11 @@ const Dashboard = () => {
         <h1 className="text-3xl">Current viz:</h1>
         <h1 className="text-8xl">{viz}</h1>
       </div>
+      <ToggleSwitch
+        checked={enableCameraControls}
+        label="Toggle me"
+        onChange={toggleEnableCameraControls}
+      />
       <div className="flex space-x-6">
         <button
           className="py-4 px-8 bg-pink-500 text-white text-2xl rounded-sm flex items-center"
