@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import Cube from "../components/Cube";
-import FirstScene from "../components/FirstScene";
+import SpinningCube from "../components/SpinningCube";
 
 export const LOCAL_VIZ_KEY = "VJ-Controller__visualization";
 export const LOCAL_SCALE_KEY = "VJ-Controller__scale";
@@ -8,10 +8,10 @@ export const LOCAL_CAMERA_CONTROLS_KEY = "VJ-Controller__camera_controls";
 
 export enum Visualization {
   CUBE = "cube",
-  FIRST_SCENE = "firstScene",
+  SPINNING_CUBE = "spinningCube",
 }
 
 export const VisualizationMap: Record<string, ReactNode> = {
   [Visualization.CUBE]: <Cube />,
-  [Visualization.FIRST_SCENE]: <FirstScene />,
+  [Visualization.SPINNING_CUBE]: <SpinningCube />,
 };

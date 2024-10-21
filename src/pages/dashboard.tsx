@@ -51,9 +51,9 @@ const Dashboard = () => {
         </button>
         <button
           className="py-4 px-8 bg-pink-500 text-white text-2xl rounded-sm flex items-center"
-          onClick={() => setViz(Visualization.FIRST_SCENE)}
+          onClick={() => setViz(Visualization.SPINNING_CUBE)}
         >
-          First Scene
+          Spinning Cube
           <IconPlayCard className="ml-2" />
         </button>
       </div>
