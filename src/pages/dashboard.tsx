@@ -1,38 +1,75 @@
 import { useLocalStorage } from "@mantine/hooks";
-import { Label, RangeSlider } from "flowbite-react";
+import {
+  LOCAL_CAMERA_CONTROLS_KEY,
+  LOCAL_SCALE_KEY,
+  LOCAL_VIZ_KEY,
+  Visualization,
+} from "../utils/constants";
+import { IconCube, IconPlayCard } from "@tabler/icons-react";
+import { Label, RangeSlider, ToggleSwitch } from "flowbite-react";
 import { ChangeEvent } from "react";
 
-export const LOCAL_SPEED_KEY = "VJ-Controller__speed";
-
 const Dashboard = () => {
-  const [speed, setSpeed] = useLocalStorage({
-    key: LOCAL_SPEED_KEY,
-    defaultValue: 0,
+  const [enableCameraControls, toggleEnableCameraControls] = useLocalStorage({
+    key: LOCAL_CAMERA_CONTROLS_KEY,
+    defaultValue: true,
+  });
+  const [viz, setViz] = useLocalStorage({
+    key: LOCAL_VIZ_KEY,
+    defaultValue: Visualization.CUBE,
+  });
+  const [scale, setScale] = useLocalStorage({
+    key: LOCAL_SCALE_KEY,
+    defaultValue: 1,
   });
 
-  const handleSetSpeed = (e: ChangeEvent<HTMLInputElement>) => {
-    const newSpeed = !Number.isNaN(e.target.valueAsNumber)
+  const handleSetScale = (e: ChangeEvent<HTMLInputElement>) => {
+    const newScale = !Number.isNaN(e.target.valueAsNumber)
       ? e.target.valueAsNumber
-      : 0;
-
-    setSpeed(newSpeed);
+      : 1;
+    setScale(newScale);
   };
 
   return (
     <div className="w-screen h-screen flex flex-col items-center justify-center bg-indigo-900 space-y-10">
+      <div className="flex flex-col items-center text-cyan-400">
+        <h1 className="text-3xl">Current viz:</h1>
+        <h1 className="text-8xl">{viz}</h1>
+      </div>
+      <ToggleSwitch
+        checked={enableCameraControls}
+        label="Toggle me"
+        onChange={toggleEnableCameraControls}
+      />
+      <div className="flex space-x-6">
+        <button
+          className="py-4 px-8 bg-pink-500 text-white text-2xl rounded-sm flex items-center"
+          onClick={() => setViz(Visualization.CUBE)}
+        >
+          Cube
+          <IconCube className="ml-2" />
+        </button>
+        <button
+          className="py-4 px-8 bg-pink-500 text-white text-2xl rounded-sm flex items-center"
+          onClick={() => setViz(Visualization.FIRST_SCENE)}
+        >
+          First Scene
+          <IconPlayCard className="ml-2" />
+        </button>
+      </div>
       <div>
         <div className="mb-1 block">
           <Label htmlFor="default-range" value="Default" />
         </div>
         <RangeSlider
           id="default-range"
-          min={0}
-          max={100}
-          value={speed}
-          onChange={handleSetSpeed}
+          min={0.1}
+          max={10}
+          step={0.1}
+          value={scale}
+          onChange={handleSetScale}
         />
       </div>
-      {speed}
     </div>
   );
 };
