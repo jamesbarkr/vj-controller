@@ -1,4 +1,5 @@
 import { useLocalStorage } from "@mantine/hooks";
+import { Label, RangeSlider } from "flowbite-react";
 import { ChangeEvent } from "react";
 
 export const LOCAL_SPEED_KEY = "VJ-Controller__speed";
@@ -19,7 +20,19 @@ const Dashboard = () => {
 
   return (
     <div className="w-screen h-screen flex flex-col items-center justify-center bg-indigo-900 space-y-10">
-      <input type="number" value={speed} onChange={handleSetSpeed} />
+      <div>
+        <div className="mb-1 block">
+          <Label htmlFor="default-range" value="Default" />
+        </div>
+        <RangeSlider
+          id="default-range"
+          min={0}
+          max={100}
+          value={speed}
+          onChange={handleSetSpeed}
+        />
+      </div>
+      {speed}
     </div>
   );
 };
