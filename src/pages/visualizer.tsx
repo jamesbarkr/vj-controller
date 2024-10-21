@@ -1,6 +1,18 @@
-// TODO: make a real thing here
+import { Canvas } from "@react-three/fiber";
+
 const Visualizer = () => {
-  return <p>This is where the visualizer will live</p>;
+  return (
+    <div className="w-screen h-screen">
+      <Canvas>
+        <mesh>
+          <ambientLight intensity={0.2} />
+          <directionalLight color="red" position={[0, 0, 5]} />
+          <boxGeometry args={[2, 2, 2]} />
+          <meshStandardMaterial />
+        </mesh>
+      </Canvas>
+    </div>
+  );
 };
 
 export default Visualizer;
