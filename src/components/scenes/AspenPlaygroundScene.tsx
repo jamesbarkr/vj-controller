@@ -1,9 +1,8 @@
-import { useState } from 'react';
-import { MeshReflectorMaterial, Fisheye } from '@react-three/drei'
-import { useLoader } from '@react-three/fiber'
-import { TextureLoader } from 'three';
-import SinCurveGeometry from '../geometry/SinCurveTubeGeometry';
-
+import { useState } from "react";
+import { MeshReflectorMaterial, Fisheye } from "@react-three/drei";
+import { useLoader } from "@react-three/fiber";
+import { TextureLoader } from "three";
+import SinCurveGeometry from "../geometry/SinCurveTubeGeometry";
 
 function AspenPlaygroundScene() {
   const [rotation, setRotation] = useState(0.5);
@@ -15,28 +14,31 @@ function AspenPlaygroundScene() {
 
   return (
     <>
-    <Fisheye zoom={0.9}>
-        <mesh rotation={[0.1, 0.2, 0.2]} position={[1, -11, -30]} onPointerUp={(e) => setRotation(rotation + 0.1)}>
-
-          <torusKnotGeometry args={[10, 3, 100, 16]}/>
+      <Fisheye zoom={0.9}>
+        <mesh
+          rotation={[0.1, 0.2, 0.2]}
+          position={[1, -11, -30]}
+          onPointerUp={() => setRotation(rotation + 0.1)}
+        >
+          <torusKnotGeometry args={[10, 3, 100, 16]} />
           <meshStandardMaterial map={colorMap} />
         </mesh>
         <mesh rotation={[0.1, rotation, 0.2]} position={[1, 13, -30]}>
           <meshStandardMaterial map={colorMap} />
           <boxGeometry args={[15, 15, 15]} />
           <mesh position={[1, 1, -30]}>
-          <meshStandardMaterial color="red" />
-          <boxGeometry args={[15, 15, 15]} />
+            <meshStandardMaterial color="red" />
+            <boxGeometry args={[15, 15, 15]} />
           </mesh>
           <mesh position={[1, 1, -60]}>
-          <meshStandardMaterial color="red" />
-          <boxGeometry args={[15, 15, 15]} />
+            <meshStandardMaterial color="red" />
+            <boxGeometry args={[15, 15, 15]} />
           </mesh>
         </mesh>
         <mesh position={[1, 1, -10]}>
-          <SinCurveGeometry scale={5}/>
+          <SinCurveGeometry scale={5} />
         </mesh>
-        
+
         <mesh position={[1, -20, -10]} rotation={[-1, 0, 0]}>
           <planeGeometry args={[100, 100]} />
           <MeshReflectorMaterial
@@ -49,9 +51,9 @@ function AspenPlaygroundScene() {
             minDepthThreshold={0.4}
             maxDepthThreshold={1.4}
             color="#202020"
-            metalness={0.1} 
-            mirror={0}          
-            />
+            metalness={0.1}
+            mirror={0}
+          />
         </mesh>
         <mesh position={[1, -20, -100]}>
           <planeGeometry args={[1000, 1000]} />
@@ -60,8 +62,8 @@ function AspenPlaygroundScene() {
         <ambientLight intensity={0.3} color="white" />
         <directionalLight color="blue" position={[-50, -50, 5]} intensity={1} />
         <directionalLight color="red" position={[50, 50, 5]} />
-        </Fisheye>
-        </>
+      </Fisheye>
+    </>
   );
 }
 
