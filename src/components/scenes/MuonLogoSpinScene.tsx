@@ -24,6 +24,8 @@ const MuonLogoSpinScene = () => {
   const data = useLoader(SVGLoader, "/src/assets/muonCassette.svg");
   const shapes = data.paths.flatMap((path) => SVGLoader.createShapes(path));
   const glitchTexture = useLoader(TextureLoader, "/src/assets/3.png");
+  const matcapTexture = useLoader(TextureLoader, "/src/assets/8.png");
+
   const clock = new Clock();
 
   const muonLogo = useMemo(() => {
@@ -36,20 +38,21 @@ const MuonLogoSpinScene = () => {
       <mesh
         geometry={geometry}
         rotation-x={Math.PI}
+        // rotation-z={Math.PI * 0.03}
         ref={muonLogoRef}
         position={[0, 0, -180]}
       >
-        <meshNormalMaterial side={DoubleSide} />
+        <meshMatcapMaterial matcap={matcapTexture} side={DoubleSide} />
       </mesh>
     );
 
     return muonLogoMesh;
-  }, [shapes]);
+  }, [shapes, matcapTexture]);
 
   useFrame(() => {
     const elapsedTime = clock.getElapsedTime();
     muonLogoRef.current.rotation.y =
-      Math.PI * -0.45 + elapsedTime * Math.PI * 0.25;
+      Math.PI * -0.49 + elapsedTime * Math.PI * 0.25;
   });
 
   useFrame(() => {
@@ -67,7 +70,7 @@ const MuonLogoSpinScene = () => {
           radialModulation={false}
           modulationOffset={0.1}
           blendFunction={BlendFunction.NORMAL} // blend mode
-          offset={new Vector2(0.004, 0.004)} // color offset
+          offset={new Vector2(0.005, 0.005)} // color offset
         />
         <Noise />
         <Scanline density={1.5} />
