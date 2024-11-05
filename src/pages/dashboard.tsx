@@ -5,7 +5,13 @@ import {
   LOCAL_VIZ_KEY,
   Visualization,
 } from "../utils/constants";
-import { IconBrightnessUpFilled, IconCube, IconPlayCard, IconTree } from "@tabler/icons-react";
+import {
+  IconBrightnessUpFilled,
+  IconCube,
+  IconDeviceAudioTape,
+  IconPlayCard,
+  IconTree,
+} from "@tabler/icons-react";
 import { Label, RangeSlider, ToggleSwitch } from "flowbite-react";
 import { ChangeEvent } from "react";
 
@@ -61,7 +67,7 @@ const Dashboard = () => {
           onClick={() => setViz(Visualization.LASERS)}
         >
           Lasers
-          <IconBrightnessUpFilled className="ml-2"/>
+          <IconBrightnessUpFilled className="ml-2" />
         </button>
         <button
           className="py-4 px-8 bg-pink-500 text-white text-2xl rounded-sm flex items-center"
@@ -69,6 +75,13 @@ const Dashboard = () => {
         >
           Aspen Playground
           <IconTree className="ml-2" />
+        </button>
+        <button
+          className="py-4 px-8 bg-pink-500 text-white text-2xl rounded-sm flex items-center"
+          onClick={() => setViz(Visualization.MUON_SPIN)}
+        >
+          Muon Spin
+          <IconDeviceAudioTape className="ml-2" />
         </button>
       </div>
       <div>
