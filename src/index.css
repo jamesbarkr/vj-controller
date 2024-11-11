@@ -5,5 +5,9 @@
 @layer base {
   html {
     font-family: "Agdasima", system-ui, sans-serif;
+    background-color: "black";
+  }
+  body {
+    background-color: "black";
   }
 }

@@ -22,28 +22,24 @@ const Visualizer = () => {
   const { cameraType, cameraZoom, frameworkType } = VisualizationMap[viz];
   const usePixiFramework = frameworkType === FrameworkType.PIXI;
 
-  let sceneLoader;
-  if (usePixiFramework) {
-    sceneLoader = <PixiSceneLoader />;
-  } else {
-    const camera = cameraType ?? CameraType.PERSPECTIVE;
+  const camera = cameraType ?? CameraType.PERSPECTIVE;
 
-    // If we ever use anything other than perspective and orthographic we'll need to change how we do this
-    const useOrthographicCamera = camera === CameraType.ORTHOGRAPHIC;
-    sceneLoader = (
-      <div className="w-screen h-screen">
-        <Canvas
-          orthographic={useOrthographicCamera}
-          // if cameraZoom is undefined this will revert to a zoom of 1
-          camera={{ zoom: cameraZoom ?? 1 }}
-        >
-          <ThreeSceneLoader />
-        </Canvas>
-      </div>
-    );
-  }
+  // If we ever use anything other than perspective and orthographic we'll need to change how we do this
+  const useOrthographicCamera = camera === CameraType.ORTHOGRAPHIC;
 
-  return sceneLoader;
+  return (
+    <div className="w-screen h-screen bg-black">
+      {usePixiFramework && <PixiSceneLoader />}
+      <Canvas
+        hidden={usePixiFramework}
+        orthographic={useOrthographicCamera}
+        // if cameraZoom is undefined this will revert to a zoom of 1
+        camera={{ zoom: cameraZoom ?? 1 }}
+      >
+        <ThreeSceneLoader />
+      </Canvas>
+    </div>
+  );
 };
 
 export default Visualizer;

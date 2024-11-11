@@ -23,11 +23,7 @@ const ThreeSceneLoader = () => {
 
   const { visualization, frameworkType } = VisualizationMap[viz];
 
-  if (frameworkType === FrameworkType.PIXI) {
-    throw new Error(
-      "Pixi visualizations cannot use the Three framework type. Update the VisualizationMap in the utils file.",
-    );
-  }
+  const isPixiViz = frameworkType === FrameworkType.PIXI;
 
   window.addEventListener("dblclick", () => {
     const fullscreenElement = document.fullscreenElement;
@@ -47,7 +43,7 @@ const ThreeSceneLoader = () => {
 
   return (
     <>
-      {visualization}
+      {!isPixiViz && visualization}
       {enableCameraControls && <CameraControls />}
     </>
   );
