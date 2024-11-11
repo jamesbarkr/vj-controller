@@ -1,25 +1,36 @@
 import { Canvas } from "@react-three/fiber";
+import SceneLoader from "../components/SceneLoader";
 import { useLocalStorage } from "@mantine/hooks";
 import {
-  LOCAL_CAMERA_CONTROLS_KEY,
+  Visualization,
   LOCAL_VIZ_KEY,
+  CameraType,
   VisualizationMap,
 } from "../utils/constants";
-import { CameraControls } from "@react-three/drei";
 
 const Visualizer = () => {
-  const [enableCameraControls] = useLocalStorage({
-    key: LOCAL_CAMERA_CONTROLS_KEY,
-    defaultValue: true,
+  const [viz] = useLocalStorage<Visualization>({
+    key: LOCAL_VIZ_KEY,
   });
-  const [viz] = useLocalStorage({ key: LOCAL_VIZ_KEY });
-  const vizElement = VisualizationMap[viz];
+  if (viz === undefined) {
+    // TODO: we need a loading visualization here
+    return <div>Loading</div>;
+  }
+
+  const { cameraType, cameraZoom } = VisualizationMap[viz];
+  const camera = cameraType ?? CameraType.PERSPECTIVE;
+
+  // If we ever use anything other than perspective and orthographic we'll need to change how we do this
+  const useOrthographicCamera = camera === CameraType.ORTHOGRAPHIC;
 
   return (
     <div className="w-screen h-screen">
-      <Canvas>
-        {vizElement}
-        {enableCameraControls && <CameraControls />}
+      <Canvas
+        orthographic={useOrthographicCamera}
+        // if cameraZoom is undefined this will revert to a zoom of 1
+        camera={{ zoom: cameraZoom ?? 1 }}
+      >
+        <SceneLoader />
       </Canvas>
     </div>
   );

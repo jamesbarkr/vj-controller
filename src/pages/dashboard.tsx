@@ -20,7 +20,7 @@ const Dashboard = () => {
     key: LOCAL_CAMERA_CONTROLS_KEY,
     defaultValue: true,
   });
-  const [viz, setViz] = useLocalStorage({
+  const [viz, setViz] = useLocalStorage<Visualization>({
     key: LOCAL_VIZ_KEY,
     defaultValue: Visualization.CUBE,
   });
