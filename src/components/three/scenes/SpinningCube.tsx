@@ -1,8 +1,8 @@
 import { useLocalStorage } from "@mantine/hooks";
-import { LOCAL_SCALE_KEY } from "../utils/constants";
 import { useRef } from "react";
 import { Mesh } from "three";
 import { useFrame } from "@react-three/fiber";
+import { LOCAL_SCALE_KEY } from "../../../utils/constants";
 
 const SpinningCube = () => {
   const [scale] = useLocalStorage({

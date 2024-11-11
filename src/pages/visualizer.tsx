@@ -1,12 +1,14 @@
 import { Canvas } from "@react-three/fiber";
-import SceneLoader from "../components/SceneLoader";
 import { useLocalStorage } from "@mantine/hooks";
 import {
   Visualization,
   LOCAL_VIZ_KEY,
   CameraType,
   VisualizationMap,
+  FrameworkType,
 } from "../utils/constants";
+import ThreeSceneLoader from "../components/three/ThreeSceneLoader";
+import PixiSceneLoader from "../components/pixi/PixiSceneLoader";
 
 const Visualizer = () => {
   const [viz] = useLocalStorage<Visualization>({
@@ -17,23 +19,31 @@ const Visualizer = () => {
     return <div>Loading</div>;
   }
 
-  const { cameraType, cameraZoom } = VisualizationMap[viz];
-  const camera = cameraType ?? CameraType.PERSPECTIVE;
+  const { cameraType, cameraZoom, frameworkType } = VisualizationMap[viz];
+  const usePixiFramework = frameworkType === FrameworkType.PIXI;
 
-  // If we ever use anything other than perspective and orthographic we'll need to change how we do this
-  const useOrthographicCamera = camera === CameraType.ORTHOGRAPHIC;
+  let sceneLoader;
+  if (usePixiFramework) {
+    sceneLoader = <PixiSceneLoader />;
+  } else {
+    const camera = cameraType ?? CameraType.PERSPECTIVE;
 
-  return (
-    <div className="w-screen h-screen">
-      <Canvas
-        orthographic={useOrthographicCamera}
-        // if cameraZoom is undefined this will revert to a zoom of 1
-        camera={{ zoom: cameraZoom ?? 1 }}
-      >
-        <SceneLoader />
-      </Canvas>
-    </div>
-  );
+    // If we ever use anything other than perspective and orthographic we'll need to change how we do this
+    const useOrthographicCamera = camera === CameraType.ORTHOGRAPHIC;
+    sceneLoader = (
+      <div className="w-screen h-screen">
+        <Canvas
+          orthographic={useOrthographicCamera}
+          // if cameraZoom is undefined this will revert to a zoom of 1
+          camera={{ zoom: cameraZoom ?? 1 }}
+        >
+          <ThreeSceneLoader />
+        </Canvas>
+      </div>
+    );
+  }
+
+  return sceneLoader;
 };
 
 export default Visualizer;

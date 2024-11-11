@@ -1,5 +1,5 @@
 import { useLocalStorage } from "@mantine/hooks";
-import { LOCAL_SCALE_KEY } from "../utils/constants";
+import { LOCAL_SCALE_KEY } from "../../../utils/constants";
 
 const Cube = () => {
   const [scale] = useLocalStorage({
