@@ -3,6 +3,7 @@ import { useThree } from "@react-three/fiber";
 import {
   LOCAL_CAMERA_CONTROLS_KEY,
   LOCAL_VIZ_KEY,
+  Visualization,
   VisualizationMap,
 } from "../utils/constants";
 import { CameraControls } from "@react-three/drei";
@@ -13,8 +14,8 @@ const SceneLoader = () => {
     key: LOCAL_CAMERA_CONTROLS_KEY,
     defaultValue: true,
   });
-  const [viz] = useLocalStorage({ key: LOCAL_VIZ_KEY });
-  const vizElement = VisualizationMap[viz];
+  const [viz] = useLocalStorage<Visualization>({ key: LOCAL_VIZ_KEY });
+  const { visualization } = VisualizationMap[viz];
 
   window.addEventListener("dblclick", () => {
     const fullscreenElement = document.fullscreenElement;
@@ -34,7 +35,7 @@ const SceneLoader = () => {
 
   return (
     <>
-      {vizElement}
+      {visualization}
       {enableCameraControls && <CameraControls />}
     </>
   );

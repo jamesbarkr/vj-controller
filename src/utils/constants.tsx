@@ -17,15 +17,34 @@ export enum Visualization {
   MUON_SPIN = "muonSpin",
 }
 
+export enum CameraType {
+  PERSPECTIVE = "perspective",
+  ORTHOGRAPHIC = "orthographic",
+}
+
+export enum RendererType {
+  THREE = "three",
+  PIXI = "pixi",
+}
+
 export type VisualizationDefinition = {
-  vizualization: Visualization;
-  useThree?: boolean;
+  visualization: ReactNode;
+  cameraType?: CameraType;
+  cameraZoom?: number;
+  rendererType?: RendererType;
 };
 
-export const VisualizationMap: Record<string, ReactNode> = {
-  [Visualization.CUBE]: <Cube />,
-  [Visualization.SPINNING_CUBE]: <SpinningCube />,
-  [Visualization.ASPEN_PLAYGROUND]: <AspenPlaygroundScene />,
-  [Visualization.LASERS]: <LaserScene />,
-  [Visualization.MUON_SPIN]: <MuonLogoSpinScene />,
-};
+export const VisualizationMap: Record<Visualization, VisualizationDefinition> =
+  {
+    [Visualization.CUBE]: { visualization: <Cube /> },
+    [Visualization.SPINNING_CUBE]: { visualization: <SpinningCube /> },
+    [Visualization.ASPEN_PLAYGROUND]: {
+      visualization: <AspenPlaygroundScene />,
+    },
+    [Visualization.LASERS]: { visualization: <LaserScene /> },
+    [Visualization.MUON_SPIN]: {
+      visualization: <MuonLogoSpinScene />,
+      cameraType: CameraType.ORTHOGRAPHIC,
+      cameraZoom: 7,
+    },
+  };
