@@ -8,6 +8,7 @@ import {
   FrameworkType,
 } from "../utils/constants";
 import ThreeSceneLoader from "../components/three/ThreeSceneLoader";
+import { Stage, Text } from "@pixi/react";
 
 const Visualizer = () => {
   const [viz] = useLocalStorage<Visualization>({
@@ -21,24 +22,17 @@ const Visualizer = () => {
   const { cameraType, cameraZoom, frameworkType } = VisualizationMap[viz];
   const usePixiFramework = frameworkType === FrameworkType.PIXI;
 
-  // const width = 800;
-  // const height = 600;
   let sceneLoader;
   if (usePixiFramework) {
-    return null;
-    // sceneLoader = (
-    //   <Stage
-    //     options={{
-    //       backgroundColor: 0x56789a,
-    //       resolution: window.devicePixelRatio,
-    //       width: width,
-    //       height: height,
-    //     }}
-    //     style={{ width: width, height: height }}
-    //   >
-    //     <Text text="Hello, world!" />
-    //   </Stage>
-    // );
+    sceneLoader = (
+      <Stage
+        options={{
+          background: 0x56789a,
+        }}
+      >
+        <Text text="Hello World" anchor={{ x: 0.5, y: 0.5 }} />
+      </Stage>
+    );
   } else {
     const camera = cameraType ?? CameraType.PERSPECTIVE;
 

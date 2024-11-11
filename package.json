@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@mantine/hooks": "^7.13.3",
+    "@pixi/react": "^7.1.2",
     "@react-three/drei": "^9.114.6",
     "@react-three/fiber": "^8.17.10",
     "@react-three/postprocessing": "^2.16.3",
@@ -19,6 +20,7 @@
     "@types/three": "^0.169.0",
     "flowbite-react": "^0.10.2",
     "lodash-es": "^4.17.21",
+    "pixi.js": "^7.4.2",
     "postprocessing": "^6.36.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
