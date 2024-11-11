@@ -38,7 +38,7 @@ const MuonLogoSpinScene = () => {
       <mesh
         geometry={geometry}
         rotation-x={Math.PI}
-        // rotation-z={Math.PI * 0.03}
+        rotation-y={-Math.PI / 2}
         ref={muonLogoRef}
         position={[0, 0, -180]}
       >

@@ -1,4 +1,3 @@
-import { IconArrowRight } from "@tabler/icons-react";
 import { useNavigate } from "react-router-dom";
 
 const Home = () => {
@@ -25,14 +24,12 @@ const Home = () => {
           onClick={handleDashboardNav}
         >
           Go to Dashboard
-          <IconArrowRight className="ml-2" />
         </button>
         <button
           className="py-4 px-8 bg-pink-500 text-white text-2xl rounded-sm flex items-center"
           onClick={handleVisualizerNav}
         >
           Go to Visualizer
-          <IconArrowRight className="ml-2" />
         </button>
       </div>
     </div>
