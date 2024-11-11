@@ -1,9 +1,9 @@
 import { ReactNode } from "react";
-import Cube from "../components/Cube";
-import SpinningCube from "../components/SpinningCube";
-import AspenPlaygroundScene from "../components/scenes/AspenPlaygroundScene";
-import LaserScene from "../components/scenes/LaserScene";
-import MuonLogoSpinScene from "../components/scenes/MuonLogoSpinScene";
+import Cube from "../components/three/Cube";
+import AspenPlaygroundScene from "../components/three/scenes/AspenPlaygroundScene";
+import LaserScene from "../components/three/scenes/LaserScene";
+import MuonLogoSpinScene from "../components/three/scenes/MuonLogoSpinScene";
+import SpinningCube from "../components/three/SpinningCube";
 
 export const LOCAL_VIZ_KEY = "VJ-Controller__visualization";
 export const LOCAL_SCALE_KEY = "VJ-Controller__scale";
@@ -22,7 +22,7 @@ export enum CameraType {
   ORTHOGRAPHIC = "orthographic",
 }
 
-export enum RendererType {
+export enum FrameworkType {
   THREE = "three",
   PIXI = "pixi",
 }
@@ -31,7 +31,7 @@ export type VisualizationDefinition = {
   visualization: ReactNode;
   cameraType?: CameraType;
   cameraZoom?: number;
-  rendererType?: RendererType;
+  frameworkType?: FrameworkType;
 };
 
 export const VisualizationMap: Record<Visualization, VisualizationDefinition> =

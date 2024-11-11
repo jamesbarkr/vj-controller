@@ -1,12 +1,13 @@
 import { Canvas } from "@react-three/fiber";
-import SceneLoader from "../components/SceneLoader";
 import { useLocalStorage } from "@mantine/hooks";
 import {
   Visualization,
   LOCAL_VIZ_KEY,
   CameraType,
   VisualizationMap,
+  FrameworkType,
 } from "../utils/constants";
+import ThreeSceneLoader from "../components/three/ThreeSceneLoader";
 
 const Visualizer = () => {
   const [viz] = useLocalStorage<Visualization>({
@@ -17,23 +18,44 @@ const Visualizer = () => {
     return <div>Loading</div>;
   }
 
-  const { cameraType, cameraZoom } = VisualizationMap[viz];
-  const camera = cameraType ?? CameraType.PERSPECTIVE;
+  const { cameraType, cameraZoom, frameworkType } = VisualizationMap[viz];
+  const usePixiFramework = frameworkType === FrameworkType.PIXI;
 
-  // If we ever use anything other than perspective and orthographic we'll need to change how we do this
-  const useOrthographicCamera = camera === CameraType.ORTHOGRAPHIC;
+  // const width = 800;
+  // const height = 600;
+  let sceneLoader;
+  if (usePixiFramework) {
+    return null;
+    // sceneLoader = (
+    //   <Stage
+    //     options={{
+    //       backgroundColor: 0x56789a,
+    //       resolution: window.devicePixelRatio,
+    //       width: width,
+    //       height: height,
+    //     }}
+    //     style={{ width: width, height: height }}
+    //   >
+    //     <Text text="Hello, world!" />
+    //   </Stage>
+    // );
+  } else {
+    const camera = cameraType ?? CameraType.PERSPECTIVE;
 
-  return (
-    <div className="w-screen h-screen">
+    // If we ever use anything other than perspective and orthographic we'll need to change how we do this
+    const useOrthographicCamera = camera === CameraType.ORTHOGRAPHIC;
+    sceneLoader = (
       <Canvas
         orthographic={useOrthographicCamera}
         // if cameraZoom is undefined this will revert to a zoom of 1
         camera={{ zoom: cameraZoom ?? 1 }}
       >
-        <SceneLoader />
+        <ThreeSceneLoader />
       </Canvas>
-    </div>
-  );
+    );
+  }
+
+  return <div className="w-screen h-screen">{sceneLoader}</div>;
 };
 
 export default Visualizer;

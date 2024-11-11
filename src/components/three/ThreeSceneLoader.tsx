@@ -1,14 +1,14 @@
 import { useLocalStorage } from "@mantine/hooks";
 import { useThree } from "@react-three/fiber";
+import { CameraControls } from "@react-three/drei";
 import {
   LOCAL_CAMERA_CONTROLS_KEY,
-  LOCAL_VIZ_KEY,
   Visualization,
+  LOCAL_VIZ_KEY,
   VisualizationMap,
-} from "../utils/constants";
-import { CameraControls } from "@react-three/drei";
+} from "../../utils/constants";
 
-const SceneLoader = () => {
+const ThreeSceneLoader = () => {
   const { gl } = useThree();
   const [enableCameraControls] = useLocalStorage({
     key: LOCAL_CAMERA_CONTROLS_KEY,
@@ -46,4 +46,4 @@ const SceneLoader = () => {
   );
 };
 
-export default SceneLoader;
+export default ThreeSceneLoader;
