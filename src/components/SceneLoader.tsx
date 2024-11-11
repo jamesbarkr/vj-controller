@@ -15,6 +15,11 @@ const SceneLoader = () => {
     defaultValue: true,
   });
   const [viz] = useLocalStorage<Visualization>({ key: LOCAL_VIZ_KEY });
+  if (viz === undefined) {
+    // TODO: we need a loading visualization here
+    return null;
+  }
+
   const { visualization } = VisualizationMap[viz];
 
   window.addEventListener("dblclick", () => {

@@ -73,7 +73,7 @@ const MuonLogoSpinScene = () => {
           offset={new Vector2(0.005, 0.005)} // color offset
         />
         <Noise />
-        <Scanline density={1.5} />
+        <Scanline density={2.5} />
         <Glitch
           columns={0}
           perturbationMap={glitchTexture}

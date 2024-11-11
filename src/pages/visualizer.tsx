@@ -9,11 +9,19 @@ import {
 } from "../utils/constants";
 
 const Visualizer = () => {
-  const [viz] = useLocalStorage<Visualization>({ key: LOCAL_VIZ_KEY });
+  const [viz] = useLocalStorage<Visualization>({
+    key: LOCAL_VIZ_KEY,
+  });
+  if (viz === undefined) {
+    // TODO: we need a loading visualization here
+    return <div>Loading</div>;
+  }
+
   const { cameraType, cameraZoom } = VisualizationMap[viz];
+  const camera = cameraType ?? CameraType.PERSPECTIVE;
 
   // If we ever use anything other than perspective and orthographic we'll need to change how we do this
-  const useOrthographicCamera = cameraType === CameraType.ORTHOGRAPHIC;
+  const useOrthographicCamera = camera === CameraType.ORTHOGRAPHIC;
 
   return (
     <div className="w-screen h-screen">
