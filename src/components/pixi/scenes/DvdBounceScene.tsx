@@ -5,6 +5,7 @@ import { ISprite } from "../../../utils/types";
 
 const SPRITE_SPEED = 5;
 
+// TODO: pick some colors we like better
 const SPRITE_COLORS = [
   0xff0000, 0xffff00, 0xff00ff, 0x00ff00, 0x00ffff, 0x0000ff,
 ];

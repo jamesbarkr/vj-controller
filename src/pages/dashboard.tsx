@@ -7,12 +7,9 @@ import {
 } from "../utils/constants";
 import {
   IconBrightnessUpFilled,
-  IconCube,
   IconDeviceAudioTape,
   IconDisc,
-  IconPlayCard,
   IconTree,
-  IconWorld,
 } from "@tabler/icons-react";
 import { Label, RangeSlider, ToggleSwitch } from "flowbite-react";
 import { ChangeEvent } from "react";
@@ -50,20 +47,6 @@ const Dashboard = () => {
         onChange={toggleEnableCameraControls}
       />
       <div className="flex space-x-6">
-        {/* <button */}
-        {/*   className="py-4 px-8 bg-pink-500 text-white text-2xl rounded-sm flex items-center" */}
-        {/*   onClick={() => setViz(Visualization.CUBE)} */}
-        {/* > */}
-        {/*   Cube */}
-        {/*   <IconCube className="ml-2" /> */}
-        {/* </button> */}
-        {/* <button */}
-        {/*   className="py-4 px-8 bg-pink-500 text-white text-2xl rounded-sm flex items-center" */}
-        {/*   onClick={() => setViz(Visualization.SPINNING_CUBE)} */}
-        {/* > */}
-        {/*   Spinning Cube */}
-        {/*   <IconPlayCard className="ml-2" /> */}
-        {/* </button> */}
         <button
           className="py-4 px-8 bg-pink-500 text-white text-2xl rounded-sm flex items-center"
           onClick={() => setViz(Visualization.DVD_BOUNCE)}
