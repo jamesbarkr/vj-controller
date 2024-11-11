@@ -8,7 +8,7 @@ import {
   FrameworkType,
 } from "../utils/constants";
 import ThreeSceneLoader from "../components/three/ThreeSceneLoader";
-import { Stage, Text } from "@pixi/react";
+import PixiSceneLoader from "../components/pixi/PixiSceneLoader";
 
 const Visualizer = () => {
   const [viz] = useLocalStorage<Visualization>({
@@ -24,32 +24,26 @@ const Visualizer = () => {
 
   let sceneLoader;
   if (usePixiFramework) {
-    sceneLoader = (
-      <Stage
-        options={{
-          background: 0x56789a,
-        }}
-      >
-        <Text text="Hello World" anchor={{ x: 0.5, y: 0.5 }} />
-      </Stage>
-    );
+    sceneLoader = <PixiSceneLoader />;
   } else {
     const camera = cameraType ?? CameraType.PERSPECTIVE;
 
     // If we ever use anything other than perspective and orthographic we'll need to change how we do this
     const useOrthographicCamera = camera === CameraType.ORTHOGRAPHIC;
     sceneLoader = (
-      <Canvas
-        orthographic={useOrthographicCamera}
-        // if cameraZoom is undefined this will revert to a zoom of 1
-        camera={{ zoom: cameraZoom ?? 1 }}
-      >
-        <ThreeSceneLoader />
-      </Canvas>
+      <div className="w-screen h-screen">
+        <Canvas
+          orthographic={useOrthographicCamera}
+          // if cameraZoom is undefined this will revert to a zoom of 1
+          camera={{ zoom: cameraZoom ?? 1 }}
+        >
+          <ThreeSceneLoader />
+        </Canvas>
+      </div>
     );
   }
 
-  return <div className="w-screen h-screen">{sceneLoader}</div>;
+  return sceneLoader;
 };
 
 export default Visualizer;

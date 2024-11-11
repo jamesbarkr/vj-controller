@@ -6,6 +6,7 @@ import {
   Visualization,
   LOCAL_VIZ_KEY,
   VisualizationMap,
+  FrameworkType,
 } from "../../utils/constants";
 
 const ThreeSceneLoader = () => {
@@ -20,7 +21,13 @@ const ThreeSceneLoader = () => {
     return null;
   }
 
-  const { visualization } = VisualizationMap[viz];
+  const { visualization, frameworkType } = VisualizationMap[viz];
+
+  if (frameworkType === FrameworkType.PIXI) {
+    throw new Error(
+      "Pixi visualizations cannot use the Three framework type. Update the VisualizationMap in the utils file.",
+    );
+  }
 
   window.addEventListener("dblclick", () => {
     const fullscreenElement = document.fullscreenElement;

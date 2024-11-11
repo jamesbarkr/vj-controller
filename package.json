@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@mantine/hooks": "^7.13.3",
+    "@pixi/filter-color-overlay": "^5.1.1",
     "@pixi/react": "^7.1.2",
     "@react-three/drei": "^9.114.6",
     "@react-three/fiber": "^8.17.10",

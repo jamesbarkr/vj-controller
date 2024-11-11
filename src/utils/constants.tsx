@@ -1,9 +1,10 @@
 import { ReactNode } from "react";
-import Cube from "../components/three/Cube";
 import AspenPlaygroundScene from "../components/three/scenes/AspenPlaygroundScene";
 import LaserScene from "../components/three/scenes/LaserScene";
 import MuonLogoSpinScene from "../components/three/scenes/MuonLogoSpinScene";
-import SpinningCube from "../components/three/SpinningCube";
+import Cube from "../components/three/scenes/Cube";
+import SpinningCube from "../components/three/scenes/SpinningCube";
+import MuonDvdBounceScene from "../components/pixi/scenes/DvdBounceScene";
 
 export const LOCAL_VIZ_KEY = "VJ-Controller__visualization";
 export const LOCAL_SCALE_KEY = "VJ-Controller__scale";
@@ -15,6 +16,7 @@ export enum Visualization {
   ASPEN_PLAYGROUND = "aspenPlayground",
   LASERS = "lasers",
   MUON_SPIN = "muonSpin",
+  DVD_BOUNCE = "dvdBounce",
 }
 
 export enum CameraType {
@@ -46,5 +48,9 @@ export const VisualizationMap: Record<Visualization, VisualizationDefinition> =
       visualization: <MuonLogoSpinScene />,
       cameraType: CameraType.ORTHOGRAPHIC,
       cameraZoom: 7,
+    },
+    [Visualization.DVD_BOUNCE]: {
+      visualization: <MuonDvdBounceScene />,
+      frameworkType: FrameworkType.PIXI,
     },
   };
