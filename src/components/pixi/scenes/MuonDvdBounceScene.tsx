@@ -69,7 +69,6 @@ const MuonDvdBounceScene = () => {
           image="/src/assets/muonCassette.svg"
           x={x}
           y={y}
-          scale={[0.5, 0.5]}
         />
       </Filters>
     </>

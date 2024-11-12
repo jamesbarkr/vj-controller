@@ -49,9 +49,9 @@ const Dashboard = () => {
         </button>
         <button
           className="py-4 px-8 bg-pink-500 text-white text-2xl rounded-sm flex items-center"
-          onClick={() => setViz(Visualization.LASERS)}
+          onClick={() => setViz(Visualization.TILES)}
         >
-          Lasers
+          Tiles
         </button>
         <button
           className="py-4 px-8 bg-pink-500 text-white text-2xl rounded-sm flex items-center"

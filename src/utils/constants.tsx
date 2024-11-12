@@ -4,7 +4,8 @@ import LaserScene from "../components/three/scenes/LaserScene";
 import MuonLogoSpinScene from "../components/three/scenes/MuonLogoSpinScene";
 import Cube from "../components/three/scenes/Cube";
 import SpinningCube from "../components/three/scenes/SpinningCube";
-import MuonDvdBounceScene from "../components/pixi/scenes/DvdBounceScene";
+import MuonDvdBounceScene from "../components/pixi/scenes/MuonDvdBounceScene";
+import MuonTiledScene from "../components/pixi/scenes/MuonTiledScene";
 
 export const LOCAL_VIZ_KEY = "VJ-Controller__visualization";
 export const LOCAL_SCALE_KEY = "VJ-Controller__scale";
@@ -17,6 +18,7 @@ export enum Visualization {
   LASERS = "lasers",
   MUON_SPIN = "muonSpin",
   DVD_BOUNCE = "dvdBounce",
+  TILES = "tiles",
 }
 
 export enum CameraType {
@@ -51,6 +53,10 @@ export const VisualizationMap: Record<Visualization, VisualizationDefinition> =
     },
     [Visualization.DVD_BOUNCE]: {
       visualization: <MuonDvdBounceScene />,
+      frameworkType: FrameworkType.PIXI,
+    },
+    [Visualization.TILES]: {
+      visualization: <MuonTiledScene />,
       frameworkType: FrameworkType.PIXI,
     },
   };

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="126.035mm"
+   height="57.037998mm"
+   viewBox="0 0 167.982 76.021394"
+   version="1.1"
+   id="svg5"
+   sodipodi:docname="muonBendySpaced.svg"
+   inkscape:version="1.2.2 (b0a84865, 2022-12-01)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview14"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="1.6369231"
+     inkscape:cx="206.79041"
+     inkscape:cy="92.857142"
+     inkscape:window-width="1506"
+     inkscape:window-height="796"
+     inkscape:window-x="0"
+     inkscape:window-y="38"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="text323" />
+  <defs
+     id="defs2" />
+  <g
+     id="layer1"
+     transform="translate(-4.4710942,-32.290893)">
+    <g
+       aria-label="MUON"
+       id="text323"
+       style="font-style:italic;font-weight:bold;font-size:56.4444px;-inkscape-font-specification:'sans-serif, Bold Italic';letter-spacing:-17.1979px;stroke-width:0.264583">
+      <path
+         id="path375"
+         style="font-style:normal;-inkscape-font-specification:'sans-serif, Bold'"
+         d="m 83.013578,49.782429 v 25.604122 c 0,2.958183 -0.615871,5.10793 -1.846916,6.449219 -1.212672,1.341288 -3.141932,2.011764 -5.78776,2.011764 -2.682576,0 -4.620851,-0.698036 -5.815149,-2.094446 -1.194298,-1.396409 -1.791622,-3.518596 -1.791622,-6.366537 V 49.782429 H 52.674345 c 0,0 -1.68777,20.583647 -9.205123,20.587891 -7.521155,0.0042 -9.233028,-20.587891 -9.233028,-20.587891 H 21.944437 v 41.038322 h 9.976652 c 0,0 -9.027802,-25.930921 0,-27.478426 7.503911,-1.286286 1.391163,17.139629 7.606771,21.536154 1.987668,1.405949 5.316279,1.405949 7.303947,0 6.215608,-4.396525 0.10286,-22.82244 7.606771,-21.536154 9.027802,1.547505 0,27.478426 0,27.478426 h 72.925792 c 0,0 -11.48397,-24.877859 -2.64583,-28.167273 10.80353,-4.020903 20.06389,28.167273 20.06389,28.167273 h 10.19731 V 49.782429 h -9.70121 c 0,0 9.89355,20.401606 2.64583,23.509677 -9.40207,4.031933 -19.728,-23.509677 -19.728,-23.509677 z m 19.986892,6.890536 c 1.32292,0 2.06155,0.248048 3.27421,0.744141 1.23105,0.496092 2.31494,1.295358 3.252,2.397786 0.9187,1.065681 1.66285,2.461753 2.23244,4.188892 0.5696,1.727138 0.85473,3.821764 0.85473,6.283854 0,2.296726 -0.24805,4.299654 -0.74414,6.008419 -0.4961,1.690391 -1.25878,3.160131 -2.28773,4.40955 -0.91869,1.102428 -1.99357,1.92024 -3.22461,2.45308 -1.23105,0.514467 -1.99724,0.771529 -3.3569,0.771529 -1.35966,0 -2.12586,-0.257062 -3.356897,-0.771529 -1.231045,-0.514467 -2.305919,-1.313732 -3.224609,-2.397787 -0.91869,-1.084055 -1.662834,-2.480644 -2.232422,-4.189408 -0.551214,-1.727138 -0.826823,-3.812232 -0.826823,-6.255949 0,-2.388595 0.284623,-4.483221 0.854212,-6.283854 0.587962,-1.819008 1.341636,-3.243158 2.260327,-4.272091 0.992185,-1.102429 2.076074,-1.892679 3.251998,-2.370398 1.194294,-0.477719 1.932924,-0.716235 3.274214,-0.716235 z"
+         sodipodi:nodetypes="cscssscccccccssssccsccccsccsccsscccssscscccs" />
+    </g>
+  </g>
+</svg>
