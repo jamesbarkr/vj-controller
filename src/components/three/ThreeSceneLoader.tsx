@@ -1,5 +1,4 @@
 import { useLocalStorage } from "@mantine/hooks";
-import { useThree } from "@react-three/fiber";
 import { CameraControls } from "@react-three/drei";
 import {
   LOCAL_CAMERA_CONTROLS_KEY,
@@ -10,7 +9,6 @@ import {
 } from "../../utils/constants";
 
 const ThreeSceneLoader = () => {
-  const { gl } = useThree();
   const [enableCameraControls] = useLocalStorage({
     key: LOCAL_CAMERA_CONTROLS_KEY,
     defaultValue: true,
@@ -24,23 +22,6 @@ const ThreeSceneLoader = () => {
   const { visualization, frameworkType } = VisualizationMap[viz];
 
   const isPixiViz = frameworkType === FrameworkType.PIXI;
-
-  window.addEventListener("dblclick", () => {
-    const fullscreenElement = document.fullscreenElement;
-
-    const canvas = gl.domElement;
-
-    if (!fullscreenElement) {
-      if (canvas.requestFullscreen) {
-        canvas.requestFullscreen();
-      }
-    } else {
-      if (document.exitFullscreen) {
-        document.exitFullscreen();
-      }
-    }
-  });
-
   return (
     <>
       {!isPixiViz && visualization}
