@@ -5,7 +5,7 @@ import MuonLogoSpinScene from "../components/three/scenes/MuonLogoSpinScene";
 import Cube from "../components/three/scenes/Cube";
 import SpinningCube from "../components/three/scenes/SpinningCube";
 import MuonDvdBounceScene from "../components/pixi/scenes/MuonDvdBounceScene";
-import MuonTiledScene from "../components/pixi/scenes/MuonTiledScene";
+import MuonTiledMovingScene from "../components/pixi/scenes/MuonTiledMovingScene";
 
 export const LOCAL_VIZ_KEY = "VJ-Controller__visualization";
 export const LOCAL_SCALE_KEY = "VJ-Controller__scale";
@@ -56,7 +56,7 @@ export const VisualizationMap: Record<Visualization, VisualizationDefinition> =
       frameworkType: FrameworkType.PIXI,
     },
     [Visualization.TILES]: {
-      visualization: <MuonTiledScene />,
+      visualization: <MuonTiledMovingScene />,
       frameworkType: FrameworkType.PIXI,
     },
   };
