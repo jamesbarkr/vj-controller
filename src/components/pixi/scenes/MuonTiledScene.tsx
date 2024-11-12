@@ -2,6 +2,8 @@ import { ColorOverlayFilter } from "@pixi/filter-color-overlay";
 import { Container, TilingSprite, useTick, withFilters } from "@pixi/react";
 import { useRef } from "react";
 import { ITilingSprite } from "../../../utils/types";
+import { BloomFilter } from "@pixi/filter-bloom";
+import { RGBSplitFilter } from "@pixi/filter-rgb-split";
 
 const SPRITE_SPEED = 3;
 
@@ -10,6 +12,8 @@ const MuonTiledScene = () => {
 
   const Filters = withFilters(Container, {
     colorOverlayFilter: ColorOverlayFilter,
+    bloomFilter: BloomFilter,
+    rgbSplitFilter: RGBSplitFilter,
   });
 
   useTick((delta) => {
@@ -25,7 +29,10 @@ const MuonTiledScene = () => {
 
   return (
     <>
-      <Filters colorOverlayFilter={{ color: 0xffffff, alpha: 1 }}>
+      <Filters
+        colorOverlayFilter={{ color: 0x00ffff, alpha: 1 }}
+        bloomFilter={{ blurX: 30, blurY: 30 }}
+      >
         <TilingSprite
           ref={spriteRef}
           image="/src/assets/muonBendySpaced.svg"
