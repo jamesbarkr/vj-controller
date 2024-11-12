@@ -9,7 +9,7 @@ function AspenPlaygroundScene() {
 
   const colorMap = useLoader(
     TextureLoader,
-    "src/assets/PavingStones092_4K-PNG/PavingStones092_4K-PNG_Color.png",
+    "src/assets/nasaNebula.jpg",
   );
 
   return (
@@ -39,7 +39,7 @@ function AspenPlaygroundScene() {
           <SinCurveGeometry scale={5} />
         </mesh>
 
-        <mesh position={[1, -20, -10]} rotation={[-1, 0, 0]}>
+        {/* <mesh position={[1, -20, -100]} rotation={[Math.PI / 2, 0, 0]}>
           <planeGeometry args={[100, 100]} />
           <MeshReflectorMaterial
             blur={[300, 30]}
@@ -54,11 +54,11 @@ function AspenPlaygroundScene() {
             metalness={0.1}
             mirror={0}
           />
-        </mesh>
-        <mesh position={[1, -20, -100]}>
+        </mesh> */}
+        {/* <mesh position={[1, -20, -100]}>
           <planeGeometry args={[1000, 1000]} />
           <meshStandardMaterial color="blue" />
-        </mesh>
+        </mesh> */}
         <ambientLight intensity={0.3} color="white" />
         <directionalLight color="blue" position={[-50, -50, 5]} intensity={1} />
         <directionalLight color="red" position={[50, 50, 5]} />
