@@ -1,13 +1,13 @@
 import { Vector3 } from "three";
 import { Bloom, EffectComposer } from "@react-three/postprocessing";
 import { BowlingShape, BowlingColor } from "../../../../utils/bowlingCarpet";
-import BowlingCarpetSquares from "./BowlingCarpetSquares";
-import BowlingCarpetSquiggles from "./BowlingCarpetSquiggles";
-import BowlingCarpetCircles from "./BowlingCarpetCircles";
-import BowlingCarpetTriangles from "./BowlingCarpetTriangles";
-import BowlingCarpetSpheres from "./BowlingCarpetSpheres";
-import BowlingCarpetCapsules from "./BowlingCarpetCapsules";
-import BowlingCarpetSprings from "./BowlingCarpetSprings";
+import BowlingCarpetCapsules from "./BowlingCarpetShapes/BowlingCarpetCapsules";
+import BowlingCarpetCircles from "./BowlingCarpetShapes/BowlingCarpetCircles";
+import BowlingCarpetSpheres from "./BowlingCarpetShapes/BowlingCarpetSpheres";
+import BowlingCarpetSprings from "./BowlingCarpetShapes/BowlingCarpetSprings";
+import BowlingCarpetSquares from "./BowlingCarpetShapes/BowlingCarpetSquares";
+import BowlingCarpetSquiggles from "./BowlingCarpetShapes/BowlingCarpetSquiggles";
+import BowlingCarpetTriangles from "./BowlingCarpetShapes/BowlingCarpetTriangles";
 
 const duration: number = 5;
 

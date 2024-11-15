@@ -1,9 +1,9 @@
 import { Mesh } from "three";
-import { BowlingShapeProps } from "../../../../utils/bowlingCarpet";
 import { useState, RefObject } from "react";
-import { createRefsArray } from "../../../../utils/refs";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+import { BowlingShapeProps } from "../../../../../utils/bowlingCarpet";
+import { createRefsArray } from "../../../../../utils/refs";
 
 const BowlingCarpetSpheres = ({
   duration,
