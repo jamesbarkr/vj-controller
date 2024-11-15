@@ -6,7 +6,7 @@ import Cube from "../components/three/scenes/Cube";
 import SpinningCube from "../components/three/scenes/SpinningCube";
 import MuonDvdBounceScene from "../components/pixi/scenes/MuonDvdBounceScene";
 import MuonTiledScene from "../components/pixi/scenes/MuonTiledScene";
-import BowlingCarpetScene from "../components/three/scenes/BowlingCarpetScene";
+import BowlingCarpetScene from "../components/three/scenes/BowlingCarpetScene/BowlingCarpetScene";
 
 export const LOCAL_VIZ_KEY = "VJ-Controller__visualization";
 export const LOCAL_SCALE_KEY = "VJ-Controller__scale";
