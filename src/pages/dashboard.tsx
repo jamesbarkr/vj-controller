@@ -71,6 +71,12 @@ const Dashboard = () => {
         >
           Bowling Carpet
         </button>
+        <button
+          className="py-4 px-8 bg-pink-500 text-white text-2xl rounded-sm flex items-center"
+          onClick={() => setViz(Visualization.CITY)}
+        >
+          San Francisco
+        </button>
       </div>
       <div>
         <div className="mb-1 block">
