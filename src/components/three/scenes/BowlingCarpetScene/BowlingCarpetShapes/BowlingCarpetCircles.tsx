@@ -27,7 +27,7 @@ const BowlingCarpetCircles = ({
   });
 
   return circles.map(({ position, color }, i) => (
-    <mesh ref={circleRefs[i]} position={position}>
+    <mesh key={`circle-${i}`} ref={circleRefs[i]} position={position}>
       <torusGeometry args={[1, 0.17]} />
       <meshToonMaterial color={color} />
     </mesh>

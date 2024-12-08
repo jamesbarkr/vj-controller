@@ -27,7 +27,7 @@ const BowlingCarpetTriangles = ({
   });
 
   return triangles.map(({ position, scale, color }, i) => (
-    <mesh ref={triangleRefs[i]} position={position}>
+    <mesh key={`triangle-${i}`} ref={triangleRefs[i]} position={position}>
       <torusGeometry args={[1 * (scale ?? 1), 0.2, 12, 3]} />
       <meshToonMaterial color={color} />
     </mesh>

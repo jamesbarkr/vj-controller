@@ -1,8 +1,12 @@
-import { Camera, CatmullRomCurve3, Color, Fog, MeshStandardMaterial, Vector3 } from "three";
+import { AmbientLight, Camera, CatmullRomCurve3, Color, Fog, Mesh, Group, MeshStandardMaterial, Vector3, BackSide } from "three";
 import { useGLTF } from '@react-three/drei'
 import { ChromaticAberration, EffectComposer } from "@react-three/postprocessing";
 import { useFrame, useThree } from "@react-three/fiber";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
+import { CityState, LOCAL_CITY_STATE_KEY, transitionDuration } from "../../../utils/constants";
+import { useLocalStorage } from "@mantine/hooks";
 
 const wireFrameMaterial = new MeshStandardMaterial()
 wireFrameMaterial.color = new Color("#ff34ff")
@@ -69,7 +73,7 @@ const curve = new CatmullRomCurve3(pointsForCurve)
 curve.arcLengthDivisions = 100000
 const discretePointsCount = 10000
 const pointsPerSecond = discretePointsCount / duration
-const lookAtOffset =  Math.max(pointsPerSecond * 0.1, 1) // edit this
+const lookAtOffset =  Math.max(pointsPerSecond * 0.1, 1)
 const discretePointsOnPath = curve.getSpacedPoints(discretePointsCount)
 
 function updateCameraOrientation(camera: Camera, time: number) {
@@ -87,9 +91,60 @@ function updateCameraOrientation(camera: Camera, time: number) {
   }
 }
 
+const lightIntensity = 1
+
 export function SanFranScenesco() {
+  const [cityState] = useLocalStorage<CityState>({
+    key: LOCAL_CITY_STATE_KEY,
+    defaultValue: CityState.ENTRY_WORMHOLE
+  });
   const { nodes } = useGLTF('/src/assets/san_francisco_california_usa.glb');
   const { scene, camera } = useThree();
+  const lightRef = useRef<AmbientLight>(null!);
+  const cityRef = useRef<Group>(null!);
+  const wormholeRef = useRef<Mesh>(null!);
+
+  useGSAP(() => {
+    switch (cityState) {
+      case CityState.ENTRY_WORMHOLE:
+        cityRef.current.visible = false
+        wormholeRef.current.visible = true
+        break
+      case CityState.CITY:
+        lightRef.current.intensity = 1
+        cityRef.current.visible = false
+        gsap.to(lightRef.current, {
+          intensity: 0,
+          duration: transitionDuration,
+          onComplete: () => {
+            cityRef.current.visible = true
+            wormholeRef.current.visible = false
+          }
+        });
+        gsap.to(lightRef.current, {
+          intensity: lightIntensity,
+          duration: transitionDuration,
+          delay: transitionDuration
+        })
+        break
+      case CityState.EXIT_WORMHOLE:
+        lightRef.current.intensity = 1
+        gsap.to(lightRef.current, {
+          intensity: 0,
+          duration: transitionDuration,
+          onComplete: () => {
+            cityRef.current.visible = false
+            wormholeRef.current.visible = true
+          }
+        });
+        gsap.to(lightRef.current, {
+          intensity: lightIntensity,
+          duration: transitionDuration,
+          delay: transitionDuration
+        })
+        break
+    }
+  }, [cityState])
 
   useEffect(() => {
     scene.fog = new Fog( 0x000000, 1, 50 )
@@ -102,7 +157,7 @@ export function SanFranScenesco() {
 
   return (
     <group dispose={null} >
-      <group position={[0, 0, 0]} scale={0.1} rotation={[-Math.PI / 2, 0, 0]}>
+      <group ref={cityRef} position={[0, 0, 0]} scale={0.1} rotation={[-Math.PI / 2, 0, 0]}>
         {/* roads */}
         <group>
           <mesh
@@ -286,7 +341,11 @@ export function SanFranScenesco() {
           />
         </group>
       </group>
-      <ambientLight intensity={1} color="white" />
+      <mesh ref={wormholeRef} >
+        <tubeGeometry  args={[ curve, 200, 5, 12, ]} />
+        <meshStandardMaterial color="white" side={BackSide} wireframe/>
+      </mesh>
+      <ambientLight ref={lightRef} color="white" intensity={lightIntensity} />
       <EffectComposer>
         <ChromaticAberration offset={[0.01, 0.01]} radialModulation modulationOffset={0.3}/>
       </EffectComposer>

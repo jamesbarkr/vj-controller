@@ -27,7 +27,7 @@ const BowlingCarpetSquares = ({
   });
 
   return squares.map(({ position, color }, i) => (
-    <mesh ref={squareRefs[i]} position={position}>
+    <mesh key={`square-${i}`} ref={squareRefs[i]} position={position}>
       <torusGeometry args={[0.8, 0.2, 12, 4]} />
       <meshToonMaterial color={color} />
     </mesh>
