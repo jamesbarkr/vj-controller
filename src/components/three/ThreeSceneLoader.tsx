@@ -9,6 +9,7 @@ import {
   CityState,
   LOCAL_CITY_STATE_KEY,
   transitionDuration,
+  LOCAL_HIDE_VISUALS_KEY,
 } from "../../utils/constants";
 import { getNextTransitionState } from "../../utils/transitions";
 import gsap from "gsap";
@@ -29,11 +30,19 @@ const ThreeSceneLoader = () => {
     key: LOCAL_CAMERA_CONTROLS_KEY,
     defaultValue: false,
   });
+  const [hideVisuals, setHideVisuals] = useLocalStorage({
+    key: LOCAL_HIDE_VISUALS_KEY,
+    defaultValue: false,
+  });
 
   const setNextTransitionState = () => {
-    const nextState = getNextTransitionState(viz, cityState);
-    setNextViz(nextState.visualization)
-    setCityState(nextState.cityState)
+    if (hideVisuals) {
+      setHideVisuals(false)
+    } else {
+      const nextState = getNextTransitionState(viz, cityState);
+      setNextViz(nextState.visualization)
+      setCityState(nextState.cityState)
+    }
   };
   window.addEventListener("click", () => {
     setNextTransitionState();
@@ -89,7 +98,7 @@ const ThreeSceneLoader = () => {
   return (
     <>
       {!isPixiViz &&
-        <mesh ref={vizParentRef} >
+        <mesh visible={!hideVisuals} ref={vizParentRef} >
           {visualization}
         </mesh>
       }
