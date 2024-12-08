@@ -3,6 +3,7 @@ import {
   CityState,
   LOCAL_CAMERA_CONTROLS_KEY,
   LOCAL_CITY_STATE_KEY,
+  LOCAL_HIDE_VISUALS_KEY,
   LOCAL_SCALE_KEY,
   LOCAL_VIZ_KEY,
   orderedVizList,
@@ -29,6 +30,10 @@ const Dashboard = () => {
     key: LOCAL_SCALE_KEY,
     defaultValue: 1,
   });
+  const [hideVisuals, setHideVisuals] = useLocalStorage({
+    key: LOCAL_HIDE_VISUALS_KEY,
+    defaultValue: false,
+  });
 
   const handleSetScale = (e: ChangeEvent<HTMLInputElement>) => {
     const newScale = !Number.isNaN(e.target.valueAsNumber)
@@ -38,9 +43,13 @@ const Dashboard = () => {
   };
 
   const setNextTransitionState = () => {
-    const nextState = getNextTransitionState(viz, cityState);
-    setViz(nextState.visualization)
-    setCityState(nextState.cityState)
+    if (hideVisuals) {
+      setHideVisuals(false)
+    } else {
+      const nextState = getNextTransitionState(viz, cityState);
+      setViz(nextState.visualization)
+      setCityState(nextState.cityState)
+    }
   };
 
   const playFromStart = () => {
@@ -58,6 +67,11 @@ const Dashboard = () => {
         checked={enableCameraControls}
         label="Camera controls"
         onChange={toggleEnableCameraControls}
+      />
+      <ToggleSwitch
+        checked={hideVisuals}
+        label="Hide Visuals"
+        onChange={() => { setHideVisuals(!hideVisuals) }}
       />
       <button
           className="py-4 px-8 bg-pink-500 text-white text-2xl rounded-sm flex items-center"

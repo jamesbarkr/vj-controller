@@ -13,6 +13,7 @@ export const LOCAL_VIZ_KEY = "VJ-Controller__visualization";
 export const LOCAL_SCALE_KEY = "VJ-Controller__scale";
 export const LOCAL_CAMERA_CONTROLS_KEY = "VJ-Controller__camera_controls";
 export const LOCAL_CITY_STATE_KEY = "VJ-Controller__city_state_key";
+export const LOCAL_HIDE_VISUALS_KEY = "VJ-Controller__hide_visuals_key";
 
 export enum Visualization {
   CUBE = "cube",
