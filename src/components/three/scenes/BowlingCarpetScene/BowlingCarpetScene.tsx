@@ -61,10 +61,6 @@ const BowlingCarpetScene = () => {
         <BowlingCarpetCapsules duration={duration} shapes={CapsuleShapes} />
         <BowlingCarpetSprings duration={duration} shapes={SpringShapes} />
       </mesh>
-      <mesh position={[1, -20, -50]} rotation={[0, 0, 0]}>
-        <planeGeometry args={[1000, 1000]} />
-        <meshBasicMaterial color="black" />
-      </mesh>
       <ambientLight intensity={0.5} color="white" />
       <spotLight color="white" position={[0, 0, 5]} intensity={100} />
       <EffectComposer>

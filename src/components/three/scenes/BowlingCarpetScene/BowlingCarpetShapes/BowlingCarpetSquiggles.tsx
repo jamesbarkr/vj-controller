@@ -27,7 +27,7 @@ const BowlingCarpetSquiggles = ({
   });
 
   return squiggles.map(({ position, color }, i) => (
-    <mesh ref={squiggleRefs[i]} position={position} scale={0.7}>
+    <mesh key={`squiggle-${i}`} ref={squiggleRefs[i]} position={position} scale={0.7}>
       <tubeGeometry
         args={[
           new CatmullRomCurve3([

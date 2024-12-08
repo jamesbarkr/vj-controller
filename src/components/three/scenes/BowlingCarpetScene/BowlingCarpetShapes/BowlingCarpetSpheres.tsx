@@ -43,7 +43,7 @@ const BowlingCarpetSpheres = ({
   });
 
   return spheres.map(({ position, color }, i) => (
-    <mesh ref={sphereRefs[i]} position={position}>
+    <mesh key={`sphere-${i}`} ref={sphereRefs[i]} position={position}>
       <mesh position={[0.2, 0, 0]}>
         <sphereGeometry args={[0.3]} />
         <meshToonMaterial color={color} />

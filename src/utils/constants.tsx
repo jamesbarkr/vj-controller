@@ -12,6 +12,7 @@ import SanFranScenesco from "../components/three/scenes/SanFranScenesco";
 export const LOCAL_VIZ_KEY = "VJ-Controller__visualization";
 export const LOCAL_SCALE_KEY = "VJ-Controller__scale";
 export const LOCAL_CAMERA_CONTROLS_KEY = "VJ-Controller__camera_controls";
+export const LOCAL_CITY_STATE_KEY = "VJ-Controller__city_state_key";
 
 export enum Visualization {
   CUBE = "cube",
@@ -23,6 +24,7 @@ export enum Visualization {
   TILES = "tiles",
   BOWLING_CARPET = "bowlingCarpet",
   CITY = "city",
+  BLACKOUT = "blackout",
 }
 
 export enum CameraType {
@@ -69,4 +71,23 @@ export const VisualizationMap: Record<Visualization, VisualizationDefinition> =
     [Visualization.CITY]: {
       visualization: <SanFranScenesco />,
     },
+    [Visualization.BLACKOUT]: {
+      visualization: <></>,
+    },
   };
+
+  export const orderedVizList: Visualization[] = [
+    Visualization.BLACKOUT,
+    Visualization.SPINNING_CUBE,
+    Visualization.CUBE,
+    Visualization.BOWLING_CARPET,
+    Visualization.CITY,
+  ];
+
+  export enum CityState {
+    ENTRY_WORMHOLE = "entryWormhole",
+    CITY = "city",
+    EXIT_WORMHOLE = "exitWormhole",
+  }
+
+  export const transitionDuration = 1

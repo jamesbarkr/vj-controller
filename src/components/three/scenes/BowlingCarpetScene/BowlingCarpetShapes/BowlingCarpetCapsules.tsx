@@ -27,7 +27,7 @@ const BowlingCarpetCapsules = ({
   });
 
   return capsules.map(({ position, color }, i) => (
-    <mesh ref={capsuleRefs[i]} position={position} scale={0.25}>
+    <mesh key={`capsule-${i}`} ref={capsuleRefs[i]} position={position} scale={0.25}>
       <capsuleGeometry args={[1, 3, 4, 8]} />
       <meshToonMaterial color={color} />
     </mesh>

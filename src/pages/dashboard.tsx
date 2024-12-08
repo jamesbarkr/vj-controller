@@ -1,21 +1,29 @@
 import { useLocalStorage } from "@mantine/hooks";
 import {
+  CityState,
   LOCAL_CAMERA_CONTROLS_KEY,
+  LOCAL_CITY_STATE_KEY,
   LOCAL_SCALE_KEY,
   LOCAL_VIZ_KEY,
+  orderedVizList,
   Visualization,
 } from "../utils/constants";
 import { Label, RangeSlider, ToggleSwitch } from "flowbite-react";
 import { ChangeEvent } from "react";
+import { getNextTransitionState } from "../utils/transitions";
 
 const Dashboard = () => {
   const [enableCameraControls, toggleEnableCameraControls] = useLocalStorage({
     key: LOCAL_CAMERA_CONTROLS_KEY,
-    defaultValue: true,
+    defaultValue: false,
   });
   const [viz, setViz] = useLocalStorage<Visualization>({
     key: LOCAL_VIZ_KEY,
     defaultValue: Visualization.CUBE,
+  });
+  const [cityState, setCityState] = useLocalStorage<CityState>({
+    key: LOCAL_CITY_STATE_KEY,
+    defaultValue: CityState.ENTRY_WORMHOLE,
   });
   const [scale, setScale] = useLocalStorage({
     key: LOCAL_SCALE_KEY,
@@ -29,6 +37,17 @@ const Dashboard = () => {
     setScale(newScale);
   };
 
+  const setNextTransitionState = () => {
+    const nextState = getNextTransitionState(viz, cityState);
+    setViz(nextState.visualization)
+    setCityState(nextState.cityState)
+  };
+
+  const playFromStart = () => {
+    setViz(orderedVizList[0])
+    setCityState(CityState.ENTRY_WORMHOLE)
+  }
+
   return (
     <div className="w-screen h-screen flex flex-col items-center justify-center bg-indigo-900 space-y-10">
       <div className="flex flex-col items-center text-cyan-400">
@@ -40,6 +59,18 @@ const Dashboard = () => {
         label="Camera controls"
         onChange={toggleEnableCameraControls}
       />
+      <button
+          className="py-4 px-8 bg-pink-500 text-white text-2xl rounded-sm flex items-center"
+          onClick={playFromStart}
+        >
+          Play from Start
+        </button>
+        <button
+          className="py-4 px-8 bg-pink-500 text-white text-2xl rounded-sm flex items-center"
+          onClick={setNextTransitionState}
+        >
+          Next
+        </button>
       <div className="flex space-x-6">
         <button
           className="py-4 px-8 bg-pink-500 text-white text-2xl rounded-sm flex items-center"
@@ -52,12 +83,6 @@ const Dashboard = () => {
           onClick={() => setViz(Visualization.TILES)}
         >
           Tiles
-        </button>
-        <button
-          className="py-4 px-8 bg-pink-500 text-white text-2xl rounded-sm flex items-center"
-          onClick={() => setViz(Visualization.ASPEN_PLAYGROUND)}
-        >
-          Aspen Playground
         </button>
         <button
           className="py-4 px-8 bg-pink-500 text-white text-2xl rounded-sm flex items-center"

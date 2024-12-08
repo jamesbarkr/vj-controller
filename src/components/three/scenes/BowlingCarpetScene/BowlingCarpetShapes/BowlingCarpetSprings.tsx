@@ -29,6 +29,7 @@ const BowlingCarpetSprings = ({
 
   return springs.map(({ position, color }, i) => (
     <mesh
+      key={`spring-${i}`}
       ref={springRefs[i]}
       position={position}
       rotation={[0, 0, 0]}
