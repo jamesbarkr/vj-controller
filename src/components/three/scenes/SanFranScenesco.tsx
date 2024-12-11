@@ -1,28 +1,36 @@
 import { AmbientLight, Camera, CatmullRomCurve3, Color, Fog, Mesh, Group, MeshStandardMaterial, Vector3, BackSide } from "three";
 import { useGLTF } from '@react-three/drei'
-import { ChromaticAberration, EffectComposer } from "@react-three/postprocessing";
 import { useFrame, useThree } from "@react-three/fiber";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { CityState, LOCAL_CITY_STATE_KEY, transitionDuration } from "../../../utils/constants";
 import { useLocalStorage } from "@mantine/hooks";
+import { BowlingColor } from "../../../utils/bowlingCarpet";
 
 const wireFrameMaterial = new MeshStandardMaterial()
 wireFrameMaterial.color = new Color("#ff34ff")
 wireFrameMaterial.wireframe = true
 
-const duration = 50
-
 const hoverOffset = 1
+const entryPoint = new Vector3(400, 100, -350)
+const startOfMarket = new Vector3(220, 14, -175)
+
+const cityFromAbovePoints: Vector3[] = [
+  // start flying in
+  entryPoint,
+  startOfMarket,
+];
+
 const pointsForCurve: Vector3[] = [
-  new Vector3(220, hoverOffset, -175),
-  new Vector3(210.80017238119, hoverOffset + 2, -165.80017238119),
-  new Vector3(201.6000525266084, hoverOffset + 4.5, -156.6000525266084),
-  new Vector3(192.4001522772, hoverOffset + 5.3, -147.4001522772),
-  new Vector3(183.20015701359708, hoverOffset + 4.9, -138.20015701359708),
-  new Vector3(174.0001098355971, hoverOffset + 2.6, -129.0001098355971),
-  new Vector3(164.80008006377577, hoverOffset + 1.4, -119.80008006377578),
+  // move down market
+  startOfMarket,
+  new Vector3(210.80017238119, 12, -165.80017238119),
+  new Vector3(201.6000525266084, 10, -156.6000525266084),
+  new Vector3(192.4001522772, 8, -147.4001522772),
+  new Vector3(183.20015701359708, 6, -138.20015701359708),
+  new Vector3(174.0001098355971, 4, -129.0001098355971),
+  new Vector3(164.80008006377577, 4, -119.80008006377578),
   new Vector3(155.60009053635662, hoverOffset + 3, -110.60009053635662),
   new Vector3(146.40012317056696, hoverOffset + 3, -101.40012317056696),
   new Vector3(137.20004955665522, hoverOffset + 4.3, -92.20004955665522),
@@ -65,33 +73,149 @@ const pointsForCurve: Vector3[] = [
   new Vector3(-203.2000525585206, hoverOffset + 5.3, 248.2000525585206),
   new Vector3(-212.40002080287718, hoverOffset + 5.6, 257.4000208028772),
   new Vector3(-221.6000997415739, hoverOffset + 5.6, 266.6000997415739),
-  new Vector3(-230.8001017814912, hoverOffset + 5.7, 275.8001017814912),
-  new Vector3(-240, hoverOffset + 6, 285),
+  new Vector3(-350, 18, 260),
+  new Vector3(-370, 12, 200),
+  new Vector3(-350, 12, 150),
+  new Vector3(-100, 12, 0),
+  new Vector3(-100, 14, -100),
+  new Vector3(50, 12, -200),
+  new Vector3(200, 10, 0),
+  new Vector3(200, 4, 100),
+  new Vector3(-50, 12, 10),
+  new Vector3(-150, 8, 100),
+  new Vector3(-50, 4, 250),
+  new Vector3(80, 4, 150),
+  new Vector3(180, 6, 250),
+  new Vector3(280, 4, 150),
+  new Vector3(230, 10, 0),
+  new Vector3(100, 14, 0),
+  new Vector3(100, 10, -200),
+  new Vector3(0, 8, -300),
+  new Vector3(-200, 14, -300),
+  new Vector3(-150, 16, -100),
+  new Vector3(50, 14, -100),
+  new Vector3(50, 8, 100),
+  new Vector3(-200, 12, 100),
+  new Vector3(-100, 12, -200),
+  new Vector3(-250, 12, -300),
+  new Vector3(-380, 14, -200),
+  new Vector3(-300, 14, -50),
+  new Vector3(-400, 16, 80),
+  new Vector3(-200, 12, 180),
+  new Vector3(-150, 14, -180),
+  new Vector3(-50, 14, -300),
+  new Vector3(120, 12, -300),
+  startOfMarket,
 ]
 
-const curve = new CatmullRomCurve3(pointsForCurve)
-curve.arcLengthDivisions = 100000
-const discretePointsCount = 10000
-const pointsPerSecond = discretePointsCount / duration
-const lookAtOffset =  Math.max(pointsPerSecond * 0.1, 1)
-const discretePointsOnPath = curve.getSpacedPoints(discretePointsCount)
+const offsetsForWormhole: Vector3[] = [
+  new Vector3(-100, 0, 0),
+  new Vector3(0, 100, -100),
+  new Vector3(-100, 60, -80),
+  new Vector3(70, -40, -100),
+  new Vector3(50, 20, -200),
+  new Vector3(150, -120, 200),
+  new Vector3(-100, -20, 60),
+  new Vector3(100, 0, 200),
+  // new Vector3(0, 0, 0),
+]
 
-function updateCameraOrientation(camera: Camera, time: number) {
-  const pointIndex = Math.floor(((time * (pointsPerSecond) ) % (discretePointsCount)))
+function makeWormholeCurve(startPoint: Vector3) : CatmullRomCurve3 {
+  const wormholePoints: Vector3[] = [startPoint]
+  let prevPoint = startPoint
+  for (let i = 0; i < offsetsForWormhole.length; i++) {
+    const nextPoint = new Vector3(
+      prevPoint.x - offsetsForWormhole[i].x,
+      prevPoint.y - offsetsForWormhole[i].y,
+      prevPoint.z - offsetsForWormhole[i].z
+    )
+    wormholePoints.push(nextPoint)
+    prevPoint = nextPoint
+  }
+  const wormholeCurve = new CatmullRomCurve3(wormholePoints, true)
+  wormholeCurve.arcLengthDivisions = 100000
+
+  return wormholeCurve
+}
+
+const startWormholeCurve = makeWormholeCurve(entryPoint)
+
+const cityFromAboveCurve = new CatmullRomCurve3(cityFromAbovePoints)
+cityFromAboveCurve.arcLengthDivisions = 100000
+const cityCurve = new CatmullRomCurve3(pointsForCurve, true)
+cityCurve.arcLengthDivisions = 100000
+
+const cityFromAboveDuration = 20
+const cityDuration = 600
+const wormholeDuration = 100
+const discretePointsCount = 10000
+const discretePointsOnCityPath = cityCurve.getSpacedPoints(discretePointsCount)
+const discretePointsOnWormholePath = startWormholeCurve.getSpacedPoints(discretePointsCount)
+const discretePointsOnAboveCity = cityFromAboveCurve.getSpacedPoints(discretePointsCount)
+
+function pointsPerSecond(state: AnimationState) : number {
+  switch(state) {
+    case AnimationState.FIRST_WORMHOLE_ACTIVE:
+    case AnimationState.FIRST_WORMHOLE_EXITING:
+    case AnimationState.SECOND_WORMHOLE_ACTIVE:
+      return discretePointsCount / wormholeDuration
+    case AnimationState.CITY_FROM_ABOVE:
+      return discretePointsCount / cityFromAboveDuration
+    case AnimationState.CITY_ACTIVE:
+    case AnimationState.CITY_EXITING:
+      return discretePointsCount / cityDuration
+  }
+}
+
+function discretePointsOnPath(state: AnimationState) : Vector3[] {
+  switch(state) {
+    case AnimationState.FIRST_WORMHOLE_ACTIVE:
+    case AnimationState.FIRST_WORMHOLE_EXITING:
+    case AnimationState.SECOND_WORMHOLE_ACTIVE:
+      return discretePointsOnWormholePath
+    case AnimationState.CITY_FROM_ABOVE:
+      return discretePointsOnAboveCity
+    case AnimationState.CITY_ACTIVE:
+    case AnimationState.CITY_EXITING:
+      return discretePointsOnCityPath
+  }
+}
+
+function updateCameraOrientation(camera: Camera, time: number, state: AnimationState, yOffset: number) {
+  const pointsPerSec = pointsPerSecond(state)
+  const pointIndex = Math.floor(((time * (pointsPerSec) ) % (discretePointsCount)))
+  const discretePoints = discretePointsOnPath(state)
   
-  const position = discretePointsOnPath[pointIndex]
+  const position = discretePoints[pointIndex]
   camera.position.x = position.x
   camera.position.y = position.y
   camera.position.z = position.z
 
-  const lookAtPointIndex = pointIndex + lookAtOffset
-  if (lookAtPointIndex < discretePointsOnPath.length) {
-    // cannot pass values > 1 to curve, so just stop updating the camera direction
-    camera.lookAt(discretePointsOnPath[lookAtPointIndex])
+  if (state == AnimationState.CITY_FROM_ABOVE) {
+    // to make transition smooth between city_from_above and city_active look at second point on city_active
+    // curve since city_from_above is linear
+    const nextPoint = discretePointsOnCityPath[1]
+    camera.lookAt(new Vector3(nextPoint.x, nextPoint.y - 0.1, nextPoint.z))
+  } else {
+    const lookAtPointIndex = pointIndex + 1
+    if (lookAtPointIndex < discretePoints.length) {
+      // cannot pass values > 1 to curve, so just stop updating the camera direction
+      const nextPoint = discretePoints[lookAtPointIndex]
+      camera.lookAt(new Vector3(nextPoint.x, nextPoint.y - yOffset, nextPoint.z))
+    }
   }
 }
 
 const lightIntensity = 1
+
+enum AnimationState {
+  FIRST_WORMHOLE_ACTIVE,
+  FIRST_WORMHOLE_EXITING,
+  CITY_FROM_ABOVE,
+  CITY_ACTIVE,
+  CITY_EXITING,
+  SECOND_WORMHOLE_ACTIVE
+}
 
 export function SanFranScenesco() {
   const [cityState] = useLocalStorage<CityState>({
@@ -99,64 +223,108 @@ export function SanFranScenesco() {
     defaultValue: CityState.ENTRY_WORMHOLE
   });
   const { nodes } = useGLTF('/src/assets/san_francisco_california_usa.glb');
-  const { scene, camera } = useThree();
+  const { scene, camera, clock } = useThree();
   const lightRef = useRef<AmbientLight>(null!);
   const cityRef = useRef<Group>(null!);
   const wormholeRef = useRef<Mesh>(null!);
+  const [animationStartTime, setAnimationStartTime] = useState(0);
+  const [animationState, setAnimationState] = useState(AnimationState.FIRST_WORMHOLE_ACTIVE)
+  const [fog] = useState(new Fog( 0x000000, 1, 500 ))
 
-  useGSAP(() => {
+  useEffect(() => {
     switch (cityState) {
       case CityState.ENTRY_WORMHOLE:
-        cityRef.current.visible = false
-        wormholeRef.current.visible = true
+        setAnimationState(AnimationState.FIRST_WORMHOLE_ACTIVE)
         break
       case CityState.CITY:
-        lightRef.current.intensity = 1
-        cityRef.current.visible = false
-        gsap.to(lightRef.current, {
-          intensity: 0,
-          duration: transitionDuration,
-          onComplete: () => {
-            cityRef.current.visible = true
-            wormholeRef.current.visible = false
-          }
-        });
-        gsap.to(lightRef.current, {
-          intensity: lightIntensity,
-          duration: transitionDuration,
-          delay: transitionDuration
-        })
+        setAnimationState(AnimationState.FIRST_WORMHOLE_EXITING)
         break
       case CityState.EXIT_WORMHOLE:
-        lightRef.current.intensity = 1
-        gsap.to(lightRef.current, {
-          intensity: 0,
-          duration: transitionDuration,
-          onComplete: () => {
-            cityRef.current.visible = false
-            wormholeRef.current.visible = true
-          }
-        });
-        gsap.to(lightRef.current, {
-          intensity: lightIntensity,
-          duration: transitionDuration,
-          delay: transitionDuration
-        })
-        break
+        setAnimationState(AnimationState.CITY_EXITING)
     }
   }, [cityState])
 
+  useGSAP(() => {
+    switch(animationState) {
+      case AnimationState.FIRST_WORMHOLE_ACTIVE:
+        fog.far = 50
+        updateCameraOrientation(camera, 0, animationState, 0)
+        cityRef.current.visible = false
+        wormholeRef.current.visible = true
+        setAnimationStartTime(clock.elapsedTime)
+        break
+      case AnimationState.FIRST_WORMHOLE_EXITING:
+        lightRef.current.intensity = 1
+        cityRef.current.visible = false
+        gsap.to(lightRef.current, {
+          intensity: 0,
+          duration: transitionDuration,
+          onComplete: () => {
+            setAnimationState(AnimationState.CITY_FROM_ABOVE)
+          }
+        });
+        break
+      case AnimationState.CITY_FROM_ABOVE:
+        fog.far = 500
+        setAnimationStartTime(clock.elapsedTime)
+        updateCameraOrientation(camera, 0, animationState, 0)
+        cityRef.current.visible = true
+        wormholeRef.current.visible = false
+        camera.lookAt(new Vector3(startOfMarket.x, startOfMarket.y - 0.1, startOfMarket.z))
+        gsap.to(lightRef.current, {
+          intensity: lightIntensity,
+          duration: transitionDuration
+        })
+        break
+      case AnimationState.CITY_ACTIVE:
+        // animate increasing fog
+        gsap.to(fog, {far: 100, duration: 3})
+        setAnimationStartTime(clock.elapsedTime)
+        break
+      case AnimationState.CITY_EXITING:
+        lightRef.current.intensity = 1
+        gsap.to(lightRef.current, {
+          intensity: 0,
+          duration: transitionDuration,
+          onComplete: () => {
+            setAnimationState(AnimationState.SECOND_WORMHOLE_ACTIVE)
+          }
+        });
+        break
+      case AnimationState.SECOND_WORMHOLE_ACTIVE:
+        fog.far = 50
+        setAnimationStartTime(clock.elapsedTime)
+        updateCameraOrientation(camera, 0, animationState, 0)
+        cityRef.current.visible = false
+        wormholeRef.current.visible = true
+        gsap.to(lightRef.current, {
+          intensity: lightIntensity,
+          duration: transitionDuration
+        })
+        break
+    }
+  }, [animationState])
+
   useEffect(() => {
-    scene.fog = new Fog( 0x000000, 1, 50 )
-    updateCameraOrientation(camera, 0)
+    scene.fog = fog
+    updateCameraOrientation(camera, 0, animationState, 0)
   })
 
   useFrame(({camera, clock}) => {
-    updateCameraOrientation(camera, clock.elapsedTime)
+    const animationProgress = clock.elapsedTime - animationStartTime
+    if (animationState == AnimationState.CITY_FROM_ABOVE && animationProgress >= cityFromAboveDuration) {
+        setAnimationState(AnimationState.CITY_ACTIVE)
+    } else {
+      let cameraYOffset = 0
+      if (animationState == AnimationState.CITY_ACTIVE || animationState == AnimationState.CITY_EXITING) {
+        cameraYOffset = 0.1
+      }
+      updateCameraOrientation(camera, animationProgress,  animationState, cameraYOffset) 
+    }
   })
 
   return (
-    <group dispose={null} >
+    <group dispose={null}>
       <group ref={cityRef} position={[0, 0, 0]} scale={0.1} rotation={[-Math.PI / 2, 0, 0]}>
         {/* roads */}
         <group>
@@ -341,14 +509,17 @@ export function SanFranScenesco() {
           />
         </group>
       </group>
-      <mesh ref={wormholeRef} >
-        <tubeGeometry  args={[ curve, 200, 5, 12, ]} />
-        <meshStandardMaterial color="white" side={BackSide} wireframe/>
+      <mesh ref={wormholeRef}> 
+        <mesh>
+          <tubeGeometry  args={[ startWormholeCurve, 400, 5, 12, ]} />
+          <meshStandardMaterial color={BowlingColor.CYAN} side={BackSide} wireframe/>
+        </mesh>
+        <mesh>
+          <tubeGeometry  args={[ startWormholeCurve, 400, 5.5, 12, ]} />
+          <meshStandardMaterial color="black" side={BackSide} />
+        </mesh>
       </mesh>
       <ambientLight ref={lightRef} color="white" intensity={lightIntensity} />
-      <EffectComposer>
-        <ChromaticAberration offset={[0.01, 0.01]} radialModulation modulationOffset={0.3}/>
-      </EffectComposer>
     </group>
   )
 }
