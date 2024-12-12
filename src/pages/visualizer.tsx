@@ -27,21 +27,23 @@ const Visualizer = () => {
   // If we ever use anything other than perspective and orthographic we'll need to change how we do this
   const useOrthographicCamera = camera === CameraType.ORTHOGRAPHIC;
 
-  window.addEventListener("dblclick", () => {
-    const fullscreenElement = document.fullscreenElement;
+  window.addEventListener("keydown", ( event) => {
+    if (event.key === "f") {
+      const fullscreenElement = document.fullscreenElement;
 
-    const body = document.querySelector("body");
+      const body = document.querySelector("body");
 
-    if (!fullscreenElement && body) {
-      if (body.requestFullscreen) {
-        body.requestFullscreen();
-      }
-    } else {
-      if (document.exitFullscreen) {
-        document.exitFullscreen();
+      if (!fullscreenElement && body) {
+        if (body.requestFullscreen) {
+          body.requestFullscreen();
+        }
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        }
       }
     }
-  });
+  }, false);
 
   return (
     <div className="w-screen h-screen bg-black">

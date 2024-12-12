@@ -8,6 +8,7 @@ import MuonDvdBounceScene from "../components/pixi/scenes/MuonDvdBounceScene";
 import MuonTiledScene from "../components/pixi/scenes/MuonTiledScene";
 import BowlingCarpetScene from "../components/three/scenes/BowlingCarpetScene/BowlingCarpetScene";
 import SanFranScenesco from "../components/three/scenes/SanFranScenesco";
+import SpikyBallScene from "../components/three/scenes/SpikyBallScene";
 
 export const LOCAL_VIZ_KEY = "VJ-Controller__visualization";
 export const LOCAL_SCALE_KEY = "VJ-Controller__scale";
@@ -26,6 +27,7 @@ export enum Visualization {
   BOWLING_CARPET = "bowlingCarpet",
   CITY = "city",
   BLACKOUT = "blackout",
+  SPIKY_BALL = "spikyBall",
 }
 
 export enum CameraType {
@@ -75,10 +77,14 @@ export const VisualizationMap: Record<Visualization, VisualizationDefinition> =
     [Visualization.BLACKOUT]: {
       visualization: <></>,
     },
+    [Visualization.SPIKY_BALL]: {
+      visualization: <SpikyBallScene />,
+    },
   };
 
   export const orderedVizList: Visualization[] = [
     Visualization.BLACKOUT,
+    Visualization.SPIKY_BALL,
     Visualization.SPINNING_CUBE,
     Visualization.CUBE,
     Visualization.BOWLING_CARPET,

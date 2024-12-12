@@ -10,6 +10,7 @@ import {
   LOCAL_CITY_STATE_KEY,
   transitionDuration,
   LOCAL_HIDE_VISUALS_KEY,
+  orderedVizList,
 } from "../../utils/constants";
 import { getNextTransitionState } from "../../utils/transitions";
 import gsap from "gsap";
@@ -47,6 +48,13 @@ const ThreeSceneLoader = () => {
   window.addEventListener("click", () => {
     setNextTransitionState();
   });
+
+  window.addEventListener("keydown", (event) => {
+    if(event.key === "r" && !event.metaKey) {
+      setNextViz(orderedVizList[0])
+      setCityState(CityState.ENTRY_WORMHOLE)
+    }
+  }, false);
 
   const [viz, setViz] = useState(nextViz);
   const vizParentRef = useRef<Mesh>(null!);
