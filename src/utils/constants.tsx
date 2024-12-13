@@ -9,6 +9,7 @@ import MuonTiledScene from "../components/pixi/scenes/MuonTiledScene";
 import BowlingCarpetScene from "../components/three/scenes/BowlingCarpetScene/BowlingCarpetScene";
 import SanFranScenesco from "../components/three/scenes/SanFranScenesco";
 import SpikyBallScene from "../components/three/scenes/SpikyBallScene";
+import RandomLinesScene from "../components/three/scenes/RandomLinesScene";
 
 export const LOCAL_VIZ_KEY = "VJ-Controller__visualization";
 export const LOCAL_SCALE_KEY = "VJ-Controller__scale";
@@ -28,6 +29,7 @@ export enum Visualization {
   CITY = "city",
   BLACKOUT = "blackout",
   SPIKY_BALL = "spikyBall",
+  LINES = "randomLines",
 }
 
 export enum CameraType {
@@ -75,26 +77,28 @@ export const VisualizationMap: Record<Visualization, VisualizationDefinition> =
       visualization: <SanFranScenesco />,
     },
     [Visualization.BLACKOUT]: {
-      visualization: <></>,
+      visualization: <mesh></mesh>,
     },
     [Visualization.SPIKY_BALL]: {
       visualization: <SpikyBallScene />,
     },
+    [Visualization.LINES]: {
+      visualization: <RandomLinesScene />,
+    },
   };
 
-  export const orderedVizList: Visualization[] = [
-    Visualization.BLACKOUT,
-    Visualization.SPIKY_BALL,
-    Visualization.SPINNING_CUBE,
-    Visualization.CUBE,
-    Visualization.BOWLING_CARPET,
-    Visualization.CITY,
-  ];
+export const orderedVizList: Visualization[] = [
+  Visualization.BLACKOUT,
+  Visualization.SPIKY_BALL,
+  Visualization.LINES,
+  Visualization.BOWLING_CARPET,
+  Visualization.CITY,
+];
 
-  export enum CityState {
-    ENTRY_WORMHOLE = "entryWormhole",
-    CITY = "city",
-    EXIT_WORMHOLE = "exitWormhole",
-  }
+export enum CityState {
+  ENTRY_WORMHOLE = "entryWormhole",
+  CITY = "city",
+  EXIT_WORMHOLE = "exitWormhole",
+}
 
-  export const transitionDuration = 1
+export const transitionDuration = 1;

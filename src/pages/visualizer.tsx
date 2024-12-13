@@ -9,15 +9,13 @@ import {
 } from "../utils/constants";
 import ThreeSceneLoader from "../components/three/ThreeSceneLoader";
 import PixiSceneLoader from "../components/pixi/PixiSceneLoader";
+import { useEffect } from "react";
 
 const Visualizer = () => {
   const [viz] = useLocalStorage<Visualization>({
     key: LOCAL_VIZ_KEY,
+    defaultValue: Visualization.CUBE,
   });
-  if (viz === undefined) {
-    // TODO: we need a loading visualization here
-    return <div>Loading</div>;
-  }
 
   const { cameraType, cameraZoom, frameworkType } = VisualizationMap[viz];
   const usePixiFramework = frameworkType === FrameworkType.PIXI;
@@ -27,7 +25,7 @@ const Visualizer = () => {
   // If we ever use anything other than perspective and orthographic we'll need to change how we do this
   const useOrthographicCamera = camera === CameraType.ORTHOGRAPHIC;
 
-  window.addEventListener("keydown", ( event) => {
+  const handleRequestFullscreen = (event: KeyboardEvent) => {
     if (event.key === "f") {
       const fullscreenElement = document.fullscreenElement;
 
@@ -43,7 +41,20 @@ const Visualizer = () => {
         }
       }
     }
-  }, false);
+  };
+
+  useEffect(() => {
+    window.addEventListener("keydown", handleRequestFullscreen, false);
+
+    return () => {
+      window.removeEventListener("keydown", handleRequestFullscreen);
+    };
+  }, []);
+
+  if (viz === undefined) {
+    // TODO: we need a loading visualization here
+    return <div>Loading</div>;
+  }
 
   return (
     <div className="w-screen h-screen bg-black">
