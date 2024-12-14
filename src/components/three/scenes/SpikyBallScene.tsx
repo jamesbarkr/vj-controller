@@ -36,7 +36,6 @@ const cyanPinkColorPalette: LightColorPalette = {
 }
 
 const SpikyBallScene = () => {
-  const { gl } = useThree();
   const [material] = useState(new MeshPhongMaterial())
   const spikyBallRef = useRef<Mesh>(null!)
   const leftLightRef = useRef<SpotLight>(null!)
@@ -85,8 +84,8 @@ const SpikyBallScene = () => {
     videoElement.className = "hidden"
     videoElement.src = "src/assets/orbs.mp4"
     videoElement.loop = true
+    videoElement.muted = true
     document.body.appendChild(videoElement)
-    videoElement.load()
     videoElement.play()
 
     const texture = new VideoTexture(videoElement)
@@ -101,13 +100,6 @@ const SpikyBallScene = () => {
       document.body.removeChild(videoElement)
     }
   }, []);
-
-  useEffect(() => {
-    gl.shadowMap.enabled = true
-    return () => {
-      gl.shadowMap.enabled = false
-    }
-  }, [gl.shadowMap]);
 
   return (
     <>
