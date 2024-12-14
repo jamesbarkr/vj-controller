@@ -15,7 +15,7 @@ import {
 import { getNextTransitionState } from "../../utils/transitions";
 import gsap from "gsap";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Light, Mesh, Vector3 } from "three";
+import { Color, Light, Mesh, Vector3 } from "three";
 import { useFrame } from "@react-three/fiber";
 
 const ThreeSceneLoader = () => {
@@ -96,6 +96,29 @@ const ThreeSceneLoader = () => {
           });
         } else {
           gsap.to(light, { intensity: 0, duration: transitionDuration });
+        }
+      }
+    });
+    // line materials don't respond to lights so we need to animate their color to black
+    const lines = mesh.getObjectsByProperty("isLineSegments2", true);
+      lines.forEach((line) => {
+      if (line instanceof Mesh) {
+        if (isVisible) {
+          const color = line.material.color;
+          line.material.color = new Color(0, 0, 0);
+          gsap.to(line.material.color, {
+            r: color.r,
+            g: color.g,
+            b: color.b,
+            duration: transitionDuration,
+          });
+        } else {
+          gsap.to(line.material.color, {
+            r: 0,
+            g: 0,
+            b: 0,
+            duration: transitionDuration
+          });
         }
       }
     });
