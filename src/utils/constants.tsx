@@ -46,11 +46,11 @@ export type VisualizationDefinition = {
 
 export const VisualizationMap: Record<Visualization, VisualizationDefinition> =
   {
-    [Visualization.CUBE]: { 
+    [Visualization.CUBE]: {
       visualization: <Cube />,
       frameworkType: FrameworkType.THREE,
     },
-    [Visualization.SPINNING_CUBE]: { 
+    [Visualization.SPINNING_CUBE]: {
       visualization: <SpinningCube />,
       frameworkType: FrameworkType.THREE,
     },
@@ -58,7 +58,7 @@ export const VisualizationMap: Record<Visualization, VisualizationDefinition> =
       visualization: <AspenPlaygroundScene />,
       frameworkType: FrameworkType.THREE,
     },
-    [Visualization.LASERS]: { 
+    [Visualization.LASERS]: {
       visualization: <LaserScene />,
       frameworkType: FrameworkType.THREE,
     },
@@ -95,14 +95,14 @@ export const VisualizationMap: Record<Visualization, VisualizationDefinition> =
       frameworkType: FrameworkType.THREE,
     },
     [Visualization.SPEAKERS]: {
-      visualization: <SpeakersScene/>,
+      visualization: <SpeakersScene />,
       frameworkType: FrameworkType.THREE,
     },
   };
 
 export const orderedVizList: Visualization[] = [
   Visualization.BLACKOUT,
-  Visualization.MUON_SPIN,
+  // Visualization.MUON_SPIN,
   Visualization.SPIKY_BALL,
   Visualization.LINES,
   Visualization.BOWLING_CARPET,

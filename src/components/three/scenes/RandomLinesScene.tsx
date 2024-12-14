@@ -47,6 +47,7 @@ const RandomLinesScene = () => {
         const [v1, v2] = linePositions[index];
         return (
           <mesh
+            key={`${v1.x}${v1.y}${v1.z}${v2.x}${v2.y}${v2.z}`}
             position={[0, 0, -100]}
             ref={ref}
             rotation={[

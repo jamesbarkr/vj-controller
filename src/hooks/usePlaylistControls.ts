@@ -8,7 +8,8 @@ import {
   orderedVizList,
 } from "../utils/constants";
 import { getNextTransitionState } from "../utils/transitions";
-import _ from "lodash";
+import { useCallback } from "react";
+import { useThrottle } from "./useThrottle";
 
 export type PlaylistControls = {
   nextViz: () => void;
@@ -30,7 +31,8 @@ export const usePlaylistControls = (): PlaylistControls => {
     defaultValue: false,
   });
 
-  const setNextTransitionState = () => {
+  const setNextTransitionState = useCallback(() => {
+    console.log("next viz");
     if (hideVisuals) {
       setHideVisuals(false);
     } else {
@@ -38,20 +40,31 @@ export const usePlaylistControls = (): PlaylistControls => {
       setViz(nextState.visualization);
       setCityState(nextState.cityState);
     }
-  };
+  }, [cityState, viz, setHideVisuals, setViz, setCityState, hideVisuals]);
 
-  const playFromStart = () => {
+  const throttledNextTransitionState = useThrottle(
+    setNextTransitionState,
+    2000,
+  );
+
+  const playFromStart = useCallback(() => {
+    console.log("play from start");
     setViz(orderedVizList[0]);
     setCityState(CityState.ENTRY_WORMHOLE);
-  };
+  }, [setViz, setCityState]);
 
-  const toggleBlackout = () => {
+  const throttledPlayFromStart = useThrottle(playFromStart, 2000);
+
+  const toggleBlackout = useCallback(() => {
+    console.log("blackout");
     setHideVisuals(!hideVisuals);
-  };
+  }, [setHideVisuals, hideVisuals]);
+
+  const throttledToggleBlackout = useThrottle(toggleBlackout, 2000);
 
   return {
-    nextViz: _.throttle(setNextTransitionState, 1000, { leading: true }),
-    restart: _.throttle(playFromStart, 1000, { leading: true }),
-    toggleBlackout: _.throttle(toggleBlackout, 1000, { leading: true }),
+    nextViz: throttledNextTransitionState,
+    restart: throttledPlayFromStart,
+    toggleBlackout: throttledToggleBlackout,
   };
 };

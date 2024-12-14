@@ -41,6 +41,10 @@ const ThreeSceneLoader = () => {
   const { visualization, frameworkType } = VisualizationMap[viz];
   const isPixiViz = frameworkType === FrameworkType.PIXI;
 
+  useEffect(() => {
+    console.log("initial render");
+  }, []);
+
   const setNextTransitionState = useCallback(
     (event: KeyboardEvent) => {
       if (
@@ -147,7 +151,7 @@ const ThreeSceneLoader = () => {
         [nextViz],
       );
     }
-  }, [nextViz, viz]);
+  }, [nextViz, viz, cityState]);
 
   useEffect(() => {
     const { frameworkType } = VisualizationMap[viz];
@@ -156,7 +160,6 @@ const ThreeSceneLoader = () => {
     if (frameworkType === FrameworkType.THREE) {
       animateSceneVisibility(visualization, true);
     }
-
   }, [viz]);
 
   return (
