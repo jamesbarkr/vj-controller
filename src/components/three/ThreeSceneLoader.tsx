@@ -41,15 +41,20 @@ const ThreeSceneLoader = () => {
   const { visualization, frameworkType } = VisualizationMap[viz];
   const isPixiViz = frameworkType === FrameworkType.PIXI;
 
-  const setNextTransitionState = useCallback(() => {
-    if (hideVisuals) {
-      setHideVisuals(false);
-    } else {
-      const nextState = getNextTransitionState(viz, cityState);
-      setNextViz(nextState.visualization);
-      setCityState(nextState.cityState);
-    }
-  }, [setHideVisuals, setNextViz, setCityState, cityState, hideVisuals, viz]);
+  const setNextTransitionState = useCallback(
+    (event: KeyboardEvent) => {
+      if (event.key === "space" && !event.metaKey) {
+        if (hideVisuals) {
+          setHideVisuals(false);
+        } else {
+          const nextState = getNextTransitionState(viz, cityState);
+          setNextViz(nextState.visualization);
+          setCityState(nextState.cityState);
+        }
+      }
+    },
+    [setHideVisuals, setNextViz, setCityState, cityState, hideVisuals, viz],
+  );
 
   const handleRestartPlaylist = useCallback(
     (event: KeyboardEvent) => {
@@ -62,13 +67,11 @@ const ThreeSceneLoader = () => {
   );
 
   useEffect(() => {
-    window.addEventListener("click", () => {
-      setNextTransitionState();
-    });
+    window.addEventListener("keydown", setNextTransitionState);
     window.addEventListener("keydown", handleRestartPlaylist, false);
 
     return () => {
-      window.removeEventListener("click", setNextTransitionState);
+      window.removeEventListener("keydown", setNextTransitionState);
       window.removeEventListener("keydown", handleRestartPlaylist);
     };
   }, [setNextTransitionState, handleRestartPlaylist]);
