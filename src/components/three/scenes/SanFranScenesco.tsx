@@ -117,7 +117,6 @@ const offsetsForWormhole: Vector3[] = [
   new Vector3(150, -120, 200),
   new Vector3(-100, -20, 60),
   new Vector3(100, 0, 200),
-  // new Vector3(0, 0, 0),
 ]
 
 function makeWormholeCurve(startPoint: Vector3) : CatmullRomCurve3 {
@@ -146,7 +145,7 @@ const cityCurve = new CatmullRomCurve3(pointsForCurve, true)
 cityCurve.arcLengthDivisions = 100000
 
 const cityFromAboveDuration = 20
-const cityDuration = 600
+const cityDuration = 900
 const wormholeDuration = 100
 const discretePointsCount = 100000
 const discretePointsOnCityPath = cityCurve.getSpacedPoints(discretePointsCount)
@@ -183,7 +182,7 @@ function discretePointsOnPath(state: AnimationState) : Vector3[] {
 
 function updateCameraOrientation(camera: Camera, time: number, state: AnimationState) {
   const pointsPerSec = pointsPerSecond(state)
-  const pointIndex = Math.floor(((time * (pointsPerSec) ) % (discretePointsCount)))
+  const pointIndex = Math.round((time * pointsPerSec) % discretePointsCount)
   const discretePoints = discretePointsOnPath(state)
   
   const position = discretePoints[pointIndex]
