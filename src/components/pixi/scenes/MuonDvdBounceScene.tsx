@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import { ISprite } from "../../../utils/types";
 
 const SPRITE_SPEED = 5;
+const SPRITE_ASPECT = 1.782;
 
 // TODO: pick some colors we like better
 const SPRITE_COLORS = [
@@ -69,6 +70,8 @@ const MuonDvdBounceScene = () => {
           image="/src/assets/muonCassette.svg"
           x={x}
           y={y}
+          height={150}
+          width={SPRITE_ASPECT * 150}
         />
       </Filters>
     </>
