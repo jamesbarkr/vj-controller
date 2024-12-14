@@ -3,8 +3,9 @@ import { Container, Sprite, useTick, withFilters } from "@pixi/react";
 import { useRef, useState } from "react";
 import { ISprite } from "../../../utils/types";
 
-const SPRITE_SPEED = 5;
+const SPRITE_SPEED = 2;
 const SPRITE_ASPECT = 1.782;
+const SPRITE_HEIGHT = 125;
 
 // TODO: pick some colors we like better
 const SPRITE_COLORS = [
@@ -70,8 +71,8 @@ const MuonDvdBounceScene = () => {
           image="/src/assets/muonCassette.svg"
           x={x}
           y={y}
-          height={150}
-          width={SPRITE_ASPECT * 150}
+          height={SPRITE_HEIGHT}
+          width={SPRITE_ASPECT * SPRITE_HEIGHT}
         />
       </Filters>
     </>
