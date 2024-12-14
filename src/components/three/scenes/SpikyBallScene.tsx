@@ -1,5 +1,4 @@
 import { useGSAP } from "@gsap/react";
-import { useThree } from "@react-three/fiber";
 import { useEffect, useRef, useState } from "react";
 import { Color, Mesh, MeshPhongMaterial, SpotLight, VideoTexture } from "three";
 import gsap from "gsap";
