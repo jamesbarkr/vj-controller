@@ -10,8 +10,10 @@ import {
 import ThreeSceneLoader from "../components/three/ThreeSceneLoader";
 import PixiSceneLoader from "../components/pixi/PixiSceneLoader";
 import { useEffect } from "react";
+import useQlc from "../hooks/useQlc";
 
 const Visualizer = () => {
+  useQlc();
   const [viz] = useLocalStorage<Visualization>({
     key: LOCAL_VIZ_KEY,
     defaultValue: Visualization.CUBE,

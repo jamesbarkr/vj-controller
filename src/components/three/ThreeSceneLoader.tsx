@@ -41,15 +41,23 @@ const ThreeSceneLoader = () => {
   const { visualization, frameworkType } = VisualizationMap[viz];
   const isPixiViz = frameworkType === FrameworkType.PIXI;
 
-  const setNextTransitionState = useCallback(() => {
-    if (hideVisuals) {
-      setHideVisuals(false);
-    } else {
-      const nextState = getNextTransitionState(viz, cityState);
-      setNextViz(nextState.visualization);
-      setCityState(nextState.cityState);
-    }
-  }, [setHideVisuals, setNextViz, setCityState, cityState, hideVisuals, viz]);
+  const setNextTransitionState = useCallback(
+    (event: KeyboardEvent) => {
+      if (
+        (event.key === " " || event.code === "Space" || event.keyCode === 32) &&
+        !event.metaKey
+      ) {
+        if (hideVisuals) {
+          setHideVisuals(false);
+        } else {
+          const nextState = getNextTransitionState(viz, cityState);
+          setNextViz(nextState.visualization);
+          setCityState(nextState.cityState);
+        }
+      }
+    },
+    [setHideVisuals, setNextViz, setCityState, cityState, hideVisuals, viz],
+  );
 
   const handleRestartPlaylist = useCallback(
     (event: KeyboardEvent) => {
@@ -62,13 +70,11 @@ const ThreeSceneLoader = () => {
   );
 
   useEffect(() => {
-    window.addEventListener("click", () => {
-      setNextTransitionState();
-    });
+    window.addEventListener("keydown", setNextTransitionState);
     window.addEventListener("keydown", handleRestartPlaylist, false);
 
     return () => {
-      window.removeEventListener("click", setNextTransitionState);
+      window.removeEventListener("keydown", setNextTransitionState);
       window.removeEventListener("keydown", handleRestartPlaylist);
     };
   }, [setNextTransitionState, handleRestartPlaylist]);
@@ -101,7 +107,7 @@ const ThreeSceneLoader = () => {
     });
     // line materials don't respond to lights so we need to animate their color to black
     const lines = mesh.getObjectsByProperty("isLineSegments2", true);
-      lines.forEach((line) => {
+    lines.forEach((line) => {
       if (line instanceof Mesh) {
         if (isVisible) {
           const color = line.material.color;
@@ -117,7 +123,7 @@ const ThreeSceneLoader = () => {
             r: 0,
             g: 0,
             b: 0,
-            duration: transitionDuration
+            duration: transitionDuration,
           });
         }
       }
