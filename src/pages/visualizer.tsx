@@ -3,7 +3,6 @@ import { useLocalStorage } from "@mantine/hooks";
 import {
   Visualization,
   LOCAL_VIZ_KEY,
-  CameraType,
   VisualizationMap,
   FrameworkType,
 } from "../utils/constants";
@@ -16,16 +15,11 @@ const Visualizer = () => {
   useQlc();
   const [viz] = useLocalStorage<Visualization>({
     key: LOCAL_VIZ_KEY,
-    defaultValue: Visualization.CUBE,
+    defaultValue: Visualization.BLACKOUT,
   });
 
-  const { cameraType, cameraZoom, frameworkType } = VisualizationMap[viz];
+  const { frameworkType } = VisualizationMap[viz];
   const usePixiFramework = frameworkType === FrameworkType.PIXI;
-
-  const camera = cameraType ?? CameraType.PERSPECTIVE;
-
-  // If we ever use anything other than perspective and orthographic we'll need to change how we do this
-  const useOrthographicCamera = camera === CameraType.ORTHOGRAPHIC;
 
   const handleRequestFullscreen = (event: KeyboardEvent) => {
     if (event.key === "f") {
@@ -63,9 +57,6 @@ const Visualizer = () => {
       {usePixiFramework && <PixiSceneLoader />}
       <Canvas
         hidden={usePixiFramework}
-        orthographic={useOrthographicCamera}
-        // if cameraZoom is undefined this will revert to a zoom of 1
-        camera={{ zoom: cameraZoom ?? 1 }}
       >
         <ThreeSceneLoader />
       </Canvas>

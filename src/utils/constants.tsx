@@ -34,11 +34,6 @@ export enum Visualization {
   SPEAKERS = "speakers",
 }
 
-export enum CameraType {
-  PERSPECTIVE = "perspective",
-  ORTHOGRAPHIC = "orthographic",
-}
-
 export enum FrameworkType {
   THREE = "three",
   PIXI = "pixi",
@@ -46,23 +41,30 @@ export enum FrameworkType {
 
 export type VisualizationDefinition = {
   visualization: ReactNode;
-  cameraType?: CameraType;
-  cameraZoom?: number;
-  frameworkType?: FrameworkType;
+  frameworkType: FrameworkType;
 };
 
 export const VisualizationMap: Record<Visualization, VisualizationDefinition> =
   {
-    [Visualization.CUBE]: { visualization: <Cube /> },
-    [Visualization.SPINNING_CUBE]: { visualization: <SpinningCube /> },
+    [Visualization.CUBE]: { 
+      visualization: <Cube />,
+      frameworkType: FrameworkType.THREE,
+    },
+    [Visualization.SPINNING_CUBE]: { 
+      visualization: <SpinningCube />,
+      frameworkType: FrameworkType.THREE,
+    },
     [Visualization.ASPEN_PLAYGROUND]: {
       visualization: <AspenPlaygroundScene />,
+      frameworkType: FrameworkType.THREE,
     },
-    [Visualization.LASERS]: { visualization: <LaserScene /> },
+    [Visualization.LASERS]: { 
+      visualization: <LaserScene />,
+      frameworkType: FrameworkType.THREE,
+    },
     [Visualization.MUON_SPIN]: {
       visualization: <MuonLogoSpinScene />,
-      cameraType: CameraType.ORTHOGRAPHIC,
-      cameraZoom: 7,
+      frameworkType: FrameworkType.THREE,
     },
     [Visualization.DVD_BOUNCE]: {
       visualization: <MuonDvdBounceScene />,
@@ -74,21 +76,27 @@ export const VisualizationMap: Record<Visualization, VisualizationDefinition> =
     },
     [Visualization.BOWLING_CARPET]: {
       visualization: <BowlingCarpetScene />,
+      frameworkType: FrameworkType.THREE,
     },
     [Visualization.CITY]: {
       visualization: <SanFranScenesco />,
+      frameworkType: FrameworkType.THREE,
     },
     [Visualization.BLACKOUT]: {
       visualization: <mesh></mesh>,
+      frameworkType: FrameworkType.THREE,
     },
     [Visualization.SPIKY_BALL]: {
       visualization: <SpikyBallScene />,
+      frameworkType: FrameworkType.THREE,
     },
     [Visualization.LINES]: {
       visualization: <RandomLinesScene />,
+      frameworkType: FrameworkType.THREE,
     },
     [Visualization.SPEAKERS]: {
       visualization: <SpeakersScene/>,
+      frameworkType: FrameworkType.THREE,
     },
   };
 
