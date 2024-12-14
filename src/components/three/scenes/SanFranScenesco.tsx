@@ -148,7 +148,7 @@ cityCurve.arcLengthDivisions = 100000
 const cityFromAboveDuration = 20
 const cityDuration = 600
 const wormholeDuration = 100
-const discretePointsCount = 10000
+const discretePointsCount = 100000
 const discretePointsOnCityPath = cityCurve.getSpacedPoints(discretePointsCount)
 const discretePointsOnWormholePath = startWormholeCurve.getSpacedPoints(discretePointsCount)
 const discretePointsOnAboveCity = cityFromAboveCurve.getSpacedPoints(discretePointsCount)
@@ -181,7 +181,7 @@ function discretePointsOnPath(state: AnimationState) : Vector3[] {
   }
 }
 
-function updateCameraOrientation(camera: Camera, time: number, state: AnimationState, yOffset: number) {
+function updateCameraOrientation(camera: Camera, time: number, state: AnimationState) {
   const pointsPerSec = pointsPerSecond(state)
   const pointIndex = Math.floor(((time * (pointsPerSec) ) % (discretePointsCount)))
   const discretePoints = discretePointsOnPath(state)
@@ -194,14 +194,12 @@ function updateCameraOrientation(camera: Camera, time: number, state: AnimationS
   if (state == AnimationState.CITY_FROM_ABOVE) {
     // to make transition smooth between city_from_above and city_active look at second point on city_active
     // curve since city_from_above is linear
-    const nextPoint = discretePointsOnCityPath[1]
-    camera.lookAt(new Vector3(nextPoint.x, nextPoint.y - 0.1, nextPoint.z))
+    camera.lookAt(discretePointsOnCityPath[20])
   } else {
     const lookAtPointIndex = pointIndex + 1
     if (lookAtPointIndex < discretePoints.length) {
       // cannot pass values > 1 to curve, so just stop updating the camera direction
-      const nextPoint = discretePoints[lookAtPointIndex]
-      camera.lookAt(new Vector3(nextPoint.x, nextPoint.y - yOffset, nextPoint.z))
+      camera.lookAt(discretePoints[lookAtPointIndex])
     }
   }
 }
@@ -248,7 +246,7 @@ export function SanFranScenesco() {
     switch(animationState) {
       case AnimationState.FIRST_WORMHOLE_ACTIVE:
         fog.far = 50
-        updateCameraOrientation(camera, 0, animationState, 0)
+        updateCameraOrientation(camera, 0, animationState)
         cityRef.current.visible = false
         wormholeRef.current.visible = true
         setAnimationStartTime(clock.elapsedTime)
@@ -267,10 +265,10 @@ export function SanFranScenesco() {
       case AnimationState.CITY_FROM_ABOVE:
         fog.far = 500
         setAnimationStartTime(clock.elapsedTime)
-        updateCameraOrientation(camera, 0, animationState, 0)
+        updateCameraOrientation(camera, 0, animationState)
         cityRef.current.visible = true
         wormholeRef.current.visible = false
-        camera.lookAt(new Vector3(startOfMarket.x, startOfMarket.y - 0.1, startOfMarket.z))
+        camera.lookAt(new Vector3(startOfMarket.x, startOfMarket.y, startOfMarket.z))
         gsap.to(lightRef.current, {
           intensity: lightIntensity,
           duration: transitionDuration
@@ -294,7 +292,7 @@ export function SanFranScenesco() {
       case AnimationState.SECOND_WORMHOLE_ACTIVE:
         fog.far = 50
         setAnimationStartTime(clock.elapsedTime)
-        updateCameraOrientation(camera, 0, animationState, 0)
+        updateCameraOrientation(camera, 0, animationState)
         cityRef.current.visible = false
         wormholeRef.current.visible = true
         gsap.to(lightRef.current, {
@@ -307,19 +305,15 @@ export function SanFranScenesco() {
 
   useEffect(() => {
     scene.fog = fog
-    updateCameraOrientation(camera, 0, animationState, 0)
-  })
+    updateCameraOrientation(camera, 0, animationState)
+  }, [])
 
   useFrame(({camera, clock}) => {
     const animationProgress = clock.elapsedTime - animationStartTime
-    if (animationState == AnimationState.CITY_FROM_ABOVE && animationProgress >= cityFromAboveDuration) {
+    if (animationState === AnimationState.CITY_FROM_ABOVE && animationProgress >= cityFromAboveDuration) {
         setAnimationState(AnimationState.CITY_ACTIVE)
-    } else {
-      let cameraYOffset = 0
-      if (animationState == AnimationState.CITY_ACTIVE || animationState == AnimationState.CITY_EXITING) {
-        cameraYOffset = 0.1
-      }
-      updateCameraOrientation(camera, animationProgress,  animationState, cameraYOffset) 
+   } else {
+      updateCameraOrientation(camera, animationProgress,  animationState) 
     }
   })
 
