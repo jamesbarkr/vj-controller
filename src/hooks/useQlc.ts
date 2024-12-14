@@ -1,4 +1,4 @@
-const QLC_WS_URL = "http://localhost:9999/qlcplusWS";
+const QLC_WS_URL = "http://10.0.0.14:9999/qlcplusWS";
 
 const useQlc = () => {
   const websocket = new WebSocket(QLC_WS_URL);
