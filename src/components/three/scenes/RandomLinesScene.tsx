@@ -65,16 +65,15 @@ const RandomLinesScene = () => {
               ]}
             />
             <meshStandardMaterial
-              emissive={Math.random() > 0.5 ? "hotpink" : "cyan"}
-              emissiveIntensity={100}
+              color={Math.random() > 0.5 ? "hotpink" : "cyan"}
               toneMapped={false}
             />
           </mesh>
         );
       })}
-      <ambientLight intensity={1} color="hotpink" />
+      <ambientLight intensity={250} color="white" />
       <EffectComposer>
-        <Bloom mipmapBlur luminanceThreshold={0} intensity={0.3} />
+        <Bloom mipmapBlur luminanceThreshold={0} intensity={1} />
       </EffectComposer>
     </>
   );
