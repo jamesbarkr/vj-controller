@@ -5,13 +5,14 @@ import { EllipseCurve, Group, Mesh, Vector3 } from "three";
 import gsap from "gsap";
 import { createRefsArray } from "../../../utils/refs";
 import { Line2 } from "three/examples/jsm/Addons.js";
+import { Bloom, EffectComposer } from "@react-three/postprocessing";
 
 type SoundWaveItem = { // probably put a uuid in here
   hasAppeared: boolean;
 };
 
 const speakerColor = "cyan";
-const soundWaveColor = "hotpink";
+const soundWaveColor = "#ff77ff";
 
 const w = 0.9;
 const frontTopLeft = new Vector3(-w, -2, 1);
@@ -46,7 +47,6 @@ const soundWavePoints = soundWaveCurve.getSpacedPoints(64);
 const soundWaveCount = 10;
 const timeBeforeNewWave = 1;
 const scaleMultiplier = 1.5;
-const opacityMultiplier = 0.8;
 const zIncrement = 0.25;
 const jitterDist = 0.05;
 
@@ -101,7 +101,7 @@ const SpeakerCircle = () => {
         });
         const currOpacity = lineRefs[i].current!.material.opacity;
         gsap.to(lineRefs[i].current!.material, {
-          opacity: currOpacity * opacityMultiplier,
+          opacity: currOpacity * (Math.abs(i - startIndex) > 3 ? 0.5 : 1),
           duration: timeBeforeNewWave,
           ease: "none",
         });
@@ -186,6 +186,9 @@ const SpeakersScene = () => {
       <Speaker/>
     </group>
     <ambientLight color="white" intensity={1}/>
+    <EffectComposer>
+      <Bloom mipmapBlur luminanceThreshold={0} intensity={5} />
+    </EffectComposer>
     </>
   );
 }

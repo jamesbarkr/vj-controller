@@ -2,6 +2,7 @@ import { useGSAP } from "@gsap/react";
 import { useEffect, useRef, useState } from "react";
 import { Color, Mesh, MeshPhongMaterial, SpotLight, VideoTexture } from "three";
 import gsap from "gsap";
+import { Bloom, EffectComposer } from "@react-three/postprocessing";
 
 type LightOptions = {
   color: string;
@@ -19,18 +20,18 @@ const blueVioletColorPalette: LightColorPalette = {
   },
   right: {
     color: "blue",
-    intensity: 5,
+    intensity: 25,
   },
 }
 
 const cyanPinkColorPalette: LightColorPalette = {
   left: {
     color: "cyan",
-    intensity: 8,
+    intensity: 15,
   },
   right: {
     color: "magenta",
-    intensity: 8,
+    intensity: 15,
   },
 }
 
@@ -107,6 +108,9 @@ const SpikyBallScene = () => {
       </mesh>
       <spotLight ref={leftLightRef} castShadow color={colorPalette.left.color} position={[-2, 0, 5]} intensity={colorPalette.left.intensity} />
       <spotLight ref={rightLightRef}  castShadow color={colorPalette.right.color} position={[2, 0, 5]} intensity={colorPalette.right.intensity} />
+      <EffectComposer>
+        <Bloom mipmapBlur luminanceThreshold={0} intensity={2} />
+      </EffectComposer>
     </>
   );
 };
