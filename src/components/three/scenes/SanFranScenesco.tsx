@@ -306,6 +306,9 @@ export function SanFranScenesco() {
   useEffect(() => {
     scene.fog = fog
     updateCameraOrientation(camera, 0, animationState)
+    return (() => {
+      scene.fog = null;
+    });
   }, [])
 
   useFrame(({camera, clock}) => {
