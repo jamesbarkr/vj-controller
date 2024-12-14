@@ -10,6 +10,7 @@ import BowlingCarpetScene from "../components/three/scenes/BowlingCarpetScene/Bo
 import SanFranScenesco from "../components/three/scenes/SanFranScenesco";
 import SpikyBallScene from "../components/three/scenes/SpikyBallScene";
 import RandomLinesScene from "../components/three/scenes/RandomLinesScene";
+import SpeakersScene from "../components/three/scenes/SpeakersScene";
 
 export const LOCAL_VIZ_KEY = "VJ-Controller__visualization";
 export const LOCAL_SCALE_KEY = "VJ-Controller__scale";
@@ -30,6 +31,7 @@ export enum Visualization {
   BLACKOUT = "blackout",
   SPIKY_BALL = "spikyBall",
   LINES = "randomLines",
+  SPEAKERS = "speakers",
 }
 
 export enum CameraType {
@@ -85,6 +87,9 @@ export const VisualizationMap: Record<Visualization, VisualizationDefinition> =
     [Visualization.LINES]: {
       visualization: <RandomLinesScene />,
     },
+    [Visualization.SPEAKERS]: {
+      visualization: <SpeakersScene/>,
+    },
   };
 
 export const orderedVizList: Visualization[] = [
@@ -93,6 +98,7 @@ export const orderedVizList: Visualization[] = [
   Visualization.LINES,
   Visualization.BOWLING_CARPET,
   Visualization.CITY,
+  Visualization.SPEAKERS,
 ];
 
 export enum CityState {
