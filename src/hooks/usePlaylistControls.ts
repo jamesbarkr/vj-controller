@@ -52,6 +52,6 @@ export const usePlaylistControls = (): PlaylistControls => {
   return {
     nextViz: _.throttle(setNextTransitionState, 1000, { leading: true }),
     restart: _.throttle(playFromStart, 1000, { leading: true }),
-    toggleBlackout,
+    toggleBlackout: _.throttle(toggleBlackout, 1000, { leading: true }),
   };
 };
