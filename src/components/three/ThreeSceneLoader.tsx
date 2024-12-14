@@ -131,7 +131,12 @@ const ThreeSceneLoader = () => {
   };
 
   useEffect(() => {
-    if (nextViz !== viz) {
+    if (nextViz === viz) {
+      return;
+    }
+
+    const nextVizDefinition = VisualizationMap[nextViz];
+    if (nextVizDefinition.frameworkType === FrameworkType.THREE) {
       const visualization = vizParentRef.current;
       animateSceneVisibility(visualization, false);
       gsap.delayedCall(
@@ -145,8 +150,13 @@ const ThreeSceneLoader = () => {
   }, [nextViz, viz]);
 
   useEffect(() => {
+    const { frameworkType } = VisualizationMap[viz];
     const visualization = vizParentRef.current;
-    animateSceneVisibility(visualization, true);
+
+    if (frameworkType === FrameworkType.THREE) {
+      animateSceneVisibility(visualization, true);
+    }
+
   }, [viz]);
 
   return (

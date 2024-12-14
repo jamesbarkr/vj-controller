@@ -20,7 +20,7 @@ const Dashboard = () => {
   });
   const [viz, setViz] = useLocalStorage<Visualization>({
     key: LOCAL_VIZ_KEY,
-    defaultValue: Visualization.CUBE,
+    defaultValue: Visualization.BLACKOUT,
   });
   const [cityState, setCityState] = useLocalStorage<CityState>({
     key: LOCAL_CITY_STATE_KEY,
