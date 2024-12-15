@@ -29,6 +29,7 @@ export enum Visualization {
   BOWLING_CARPET = "bowlingCarpet",
   CITY = "city",
   BLACKOUT = "blackout",
+  BLACKOUT_2 = "blackout2",
   SPIKY_BALL = "spikyBall",
   LINES = "randomLines",
   SPEAKERS = "speakers",
@@ -86,6 +87,10 @@ export const VisualizationMap: Record<Visualization, VisualizationDefinition> =
       visualization: <mesh></mesh>,
       frameworkType: FrameworkType.THREE,
     },
+    [Visualization.BLACKOUT_2]: {
+      visualization: <mesh></mesh>,
+      frameworkType: FrameworkType.THREE,
+    },
     [Visualization.SPIKY_BALL]: {
       visualization: <SpikyBallScene />,
       frameworkType: FrameworkType.THREE,
@@ -106,7 +111,7 @@ export const orderedVizList: Visualization[] = [
   Visualization.SPIKY_BALL,
   Visualization.LINES,
   Visualization.BOWLING_CARPET,
-  Visualization.BLACKOUT,
+  Visualization.BLACKOUT_2,
   Visualization.CITY,
   Visualization.SPEAKERS,
 ];
