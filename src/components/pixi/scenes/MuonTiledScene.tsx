@@ -5,7 +5,7 @@ import { ITilingSprite } from "../../../utils/types";
 import { BloomFilter } from "@pixi/filter-bloom";
 import { RGBSplitFilter } from "@pixi/filter-rgb-split";
 
-const SPRITE_SPEED = 3;
+const SPRITE_SPEED = 0.3;
 
 const MuonTiledScene = () => {
   const spriteRef = useRef<ITilingSprite>(null!);
