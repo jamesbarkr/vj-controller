@@ -1,12 +1,11 @@
-import { AmbientLight, Camera, CatmullRomCurve3, Color, Fog, Mesh, Group, MeshStandardMaterial, Vector3, BackSide, Material } from "three";
+import { AmbientLight, Camera, CatmullRomCurve3, Color, Fog, Mesh, Group, MeshStandardMaterial, Vector3, BackSide } from "three";
 import { useGLTF } from '@react-three/drei'
 import { useFrame, useThree } from "@react-three/fiber";
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
-import { CityState, LOCAL_CITY_STATE_KEY, transitionDuration } from "../../../utils/constants";
+import { CityState, LOCAL_CITY_STATE_KEY, LOCAL_VIZ_KEY, transitionDuration, Visualization } from "../../../utils/constants";
 import { useLocalStorage } from "@mantine/hooks";
-import { BowlingColor } from "../../../utils/bowlingCarpet";
 import { Bloom, EffectComposer } from "@react-three/postprocessing";
 
 const wireFrameMaterial = new MeshStandardMaterial()
@@ -214,6 +213,10 @@ enum AnimationState {
 }
 
 export function SanFranScenesco() {
+  const [viz] = useLocalStorage<Visualization>({
+    key: LOCAL_VIZ_KEY,
+    defaultValue: Visualization.CITY
+  });
   const [cityState] = useLocalStorage<CityState>({
     key: LOCAL_CITY_STATE_KEY,
     defaultValue: CityState.ENTRY_WORMHOLE
@@ -231,7 +234,9 @@ export function SanFranScenesco() {
   useEffect(() => {
     switch (cityState) {
       case CityState.ENTRY_WORMHOLE:
-        setAnimationState(AnimationState.FIRST_WORMHOLE_ACTIVE)
+        if (viz === Visualization.CITY) {
+          setAnimationState(AnimationState.FIRST_WORMHOLE_ACTIVE)
+        }
         break
       case CityState.CITY:
         setAnimationState(AnimationState.FIRST_WORMHOLE_EXITING)
