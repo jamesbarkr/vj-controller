@@ -11,10 +11,13 @@ enum QLCPlusFunction {
   RESTART = "0",
   BLACKOUT = "2",
   NEXT = "11",
+  PRE = "283",
+  POST = "284",
 }
 
 const useQlc = () => {
-  const { nextViz, restart, toggleBlackout } = usePlaylistControls();
+  const { nextViz, restart, toggleBlackout, preParty, postParty } =
+    usePlaylistControls();
 
   useEffect(() => {
     const websocket = new WebSocket(QLC_WS_URL);
@@ -38,7 +41,14 @@ const useQlc = () => {
           case QLCPlusFunction.BLACKOUT:
             toggleBlackout();
             break;
+          case QLCPlusFunction.PRE:
+            preParty();
+            break;
+          case QLCPlusFunction.POST:
+            postParty();
+            break;
           default:
+            console.log(msgData1);
             break;
         }
       }

@@ -15,6 +15,8 @@ export type PlaylistControls = {
   nextViz: () => void;
   restart: () => void;
   toggleBlackout: () => void;
+  preParty: () => void;
+  postParty: () => void;
 };
 
 export const usePlaylistControls = (): PlaylistControls => {
@@ -32,7 +34,6 @@ export const usePlaylistControls = (): PlaylistControls => {
   });
 
   const setNextTransitionState = useCallback(() => {
-    console.log("next viz");
     if (hideVisuals) {
       setHideVisuals(false);
     } else {
@@ -48,7 +49,6 @@ export const usePlaylistControls = (): PlaylistControls => {
   );
 
   const playFromStart = useCallback(() => {
-    console.log("play from start");
     setViz(orderedVizList[0]);
     setCityState(CityState.ENTRY_WORMHOLE);
   }, [setViz, setCityState]);
@@ -56,15 +56,28 @@ export const usePlaylistControls = (): PlaylistControls => {
   const throttledPlayFromStart = useThrottle(playFromStart, 2000);
 
   const toggleBlackout = useCallback(() => {
-    console.log("blackout");
     setHideVisuals(!hideVisuals);
   }, [setHideVisuals, hideVisuals]);
 
   const throttledToggleBlackout = useThrottle(toggleBlackout, 2000);
 
+  const preParty = useCallback(() => {
+    setViz(Visualization.TILES);
+  }, [setViz]);
+
+  const throttledPreParty = useThrottle(preParty, 2000);
+
+  const postParty = useCallback(() => {
+    setViz(Visualization.DVD_BOUNCE);
+  }, [setViz]);
+
+  const throttledPostParty = useThrottle(postParty, 2000);
+
   return {
     nextViz: throttledNextTransitionState,
     restart: throttledPlayFromStart,
     toggleBlackout: throttledToggleBlackout,
+    preParty: throttledPreParty,
+    postParty: throttledPostParty,
   };
 };
