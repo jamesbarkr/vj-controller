@@ -245,9 +245,9 @@ export function SanFranScenesco() {
     if (animationState === AnimationState.SECOND_WORMHOLE_ACTIVE) {
       return 1000
     } else if (animationState === AnimationState.FIRST_WORMHOLE_ACTIVE || animationState === AnimationState.FIRST_WORMHOLE_EXITING) {
-      return 30
-    } else {
       return 12
+    } else {
+      return 15
     }
   }
 
