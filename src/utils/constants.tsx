@@ -106,6 +106,7 @@ export const orderedVizList: Visualization[] = [
   Visualization.SPIKY_BALL,
   Visualization.LINES,
   Visualization.BOWLING_CARPET,
+  Visualization.BLACKOUT,
   Visualization.CITY,
   Visualization.SPEAKERS,
 ];
