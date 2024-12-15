@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { Color, Mesh, MeshPhongMaterial, SpotLight, VideoTexture } from "three";
 import gsap from "gsap";
 import { Bloom, EffectComposer } from "@react-three/postprocessing";
+import { transitionDuration } from "../../../utils/constants";
 
 type LightOptions = {
   color: string;
@@ -35,8 +36,30 @@ const cyanPinkColorPalette: LightColorPalette = {
   },
 }
 
+function setupVideo() {
+  return new Promise(resolve => {
+      const selector = 'video';
+      if (document.querySelector(selector)) {
+          return resolve(document.querySelector(selector));
+      }
+
+      const observer = new MutationObserver(() => {
+          if (document.querySelector(selector)) {
+              observer.disconnect();
+              resolve(document.querySelector(selector));
+          }
+      });
+
+      observer.observe(document.body, {
+          childList: true,
+          subtree: true
+      });
+  });
+}
+
 const SpikyBallScene = () => {
-  const [material] = useState(new MeshPhongMaterial())
+  const [material] = useState(new MeshPhongMaterial({transparent: true, opacity: 0}));
+  const [texture, setTexture] = useState<VideoTexture | undefined>(undefined);
   const spikyBallRef = useRef<Mesh>(null!)
   const leftLightRef = useRef<SpotLight>(null!)
   const rightLightRef = useRef<SpotLight>(null!)
@@ -65,6 +88,15 @@ const SpikyBallScene = () => {
   }, [animateScale]);
 
   useGSAP(() => {
+    if (texture !== undefined) {
+      gsap.to(material, {
+        opacity: 1,
+        duration: transitionDuration,
+      });
+    }
+  }, [texture]);
+
+  useGSAP(() => {
     gsap.to(leftLightRef.current.position, {
       x: leftLightRef.current.position.x + 4,
       duration: 1,
@@ -80,30 +112,38 @@ const SpikyBallScene = () => {
   }, []);
 
   useEffect(() => {
-    const videoElement = document.createElement('video')
-    videoElement.className = "hidden"
-    videoElement.src = "src/assets/orbs.mp4"
-    videoElement.loop = true
-    videoElement.muted = true
-    document.body.appendChild(videoElement)
-    videoElement.play()
+    const videoElement = document.createElement('video');
+    videoElement.className = "hidden";
+    videoElement.src = "src/assets/orbs.mp4";
+    videoElement.loop = true;
+    videoElement.muted = true;
+    document.body.appendChild(videoElement);
 
-    const texture = new VideoTexture(videoElement)
-    material.displacementMap = texture
-    material.color = new Color("white")
-    material.displacementScale = 1.2
-    material.needsUpdate = true
+    setupVideo().then((videoElement) => {
+      if (videoElement instanceof HTMLVideoElement) {
+        videoElement.play().then(() => {
+          const texture = new VideoTexture(videoElement);
+          material.displacementMap = texture;
+          material.color = new Color("white");
+          material.displacementScale = 1.2;
+          material.needsUpdate = true;
+          setTexture(texture);
+        });
+      }
+    });
 
-    setAnimateScale(true)
+    setAnimateScale(true);
 
     return () => {
-      document.body.removeChild(videoElement)
+      if(document.body.contains(videoElement)) {
+        videoElement.remove();
+      }
     }
-  }, []);
+  }, [material]);
 
   return (
     <>
-      <mesh  ref={spikyBallRef} material={material} castShadow receiveShadow>
+      <mesh ref={spikyBallRef} material={material} castShadow receiveShadow>
         <sphereGeometry args={[1.5, 1000, 1000]}/>
       </mesh>
       <spotLight ref={leftLightRef} castShadow color={colorPalette.left.color} position={[-2, 0, 5]} intensity={colorPalette.left.intensity} />
