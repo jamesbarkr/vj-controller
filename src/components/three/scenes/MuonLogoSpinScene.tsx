@@ -1,4 +1,5 @@
 import {
+  Bloom,
   ChromaticAberration,
   EffectComposer,
   Glitch,
@@ -10,7 +11,6 @@ import { useFrame, useLoader } from "@react-three/fiber";
 import { useMemo, useRef, useState } from "react";
 import {
   Clock,
-  DoubleSide,
   ExtrudeGeometry,
   Mesh,
   TextureLoader,
@@ -24,7 +24,6 @@ const MuonLogoSpinScene = () => {
   const data = useLoader(SVGLoader, "/src/assets/muonCassette.svg");
   const shapes = data.paths.flatMap((path) => SVGLoader.createShapes(path));
   const glitchTexture = useLoader(TextureLoader, "/src/assets/3.png");
-  const matcapTexture = useLoader(TextureLoader, "/src/assets/8.png");
 
   const clock = new Clock();
 
@@ -40,14 +39,14 @@ const MuonLogoSpinScene = () => {
         rotation-x={Math.PI}
         rotation-y={-Math.PI / 2}
         ref={muonLogoRef}
-        position={[0, 0, -180]}
+        scale={0.031}
       >
-        <meshMatcapMaterial matcap={matcapTexture} side={DoubleSide} />
+        <meshPhongMaterial color="#6666FF"/>
       </mesh>
     );
 
     return muonLogoMesh;
-  }, [shapes, matcapTexture]);
+  }, [shapes]);
 
   useFrame(() => {
     const elapsedTime = clock.getElapsedTime();
@@ -64,7 +63,9 @@ const MuonLogoSpinScene = () => {
 
   return (
     <>
-      <color attach={"background"} args={["black"]} />
+      {muonLogo}
+      <spotLight castShadow color="magenta" position={[-1, 0, 5]} intensity={30} decay={1.3}  />
+      <spotLight castShadow color="cyan" position={[1, 0, 5]} intensity={30} decay={1.3} />
       <EffectComposer>
         <ChromaticAberration
           radialModulation={false}
@@ -84,8 +85,8 @@ const MuonLogoSpinScene = () => {
           active // turn on/off the effect (switches between "mode" prop and GlitchMode.DISABLED)
           ratio={0.25} // Threshold for strong glitches, 0 - no weak glitches, 1 - no strong glitches.
         />
+        <Bloom mipmapBlur luminanceThreshold={0} intensity={2} />
       </EffectComposer>
-      {muonLogo}
     </>
   );
 };

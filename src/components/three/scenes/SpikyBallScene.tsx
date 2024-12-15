@@ -65,7 +65,7 @@ const SpikyBallScene = () => {
   const rightLightRef = useRef<SpotLight>(null!)
   const [animateScale, setAnimateScale] = useState(false)
 
-  const colorPalette = cyanPinkColorPalette;
+  const colorPalette = blueVioletColorPalette;
 
   const randomScaleWithinThreshold = () => {
     const min = 0.8
@@ -149,7 +149,7 @@ const SpikyBallScene = () => {
       <spotLight ref={leftLightRef} castShadow color={colorPalette.left.color} position={[-2, 0, 5]} intensity={colorPalette.left.intensity} />
       <spotLight ref={rightLightRef}  castShadow color={colorPalette.right.color} position={[2, 0, 5]} intensity={colorPalette.right.intensity} />
       <EffectComposer>
-        <Bloom mipmapBlur luminanceThreshold={0} intensity={2} />
+        <Bloom mipmapBlur luminanceThreshold={0} intensity={4} />
       </EffectComposer>
     </>
   );

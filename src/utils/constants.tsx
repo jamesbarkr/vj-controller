@@ -102,7 +102,7 @@ export const VisualizationMap: Record<Visualization, VisualizationDefinition> =
 
 export const orderedVizList: Visualization[] = [
   Visualization.BLACKOUT,
-  // Visualization.MUON_SPIN,
+  Visualization.MUON_SPIN,
   Visualization.SPIKY_BALL,
   Visualization.LINES,
   Visualization.BOWLING_CARPET,
