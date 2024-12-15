@@ -61,10 +61,10 @@ const BowlingCarpetScene = () => {
         <BowlingCarpetCapsules duration={duration} shapes={CapsuleShapes} />
         <BowlingCarpetSprings duration={duration} shapes={SpringShapes} />
       </mesh>
-      <ambientLight intensity={0.5} color="white" />
+      <ambientLight intensity={2} color="white" />
       <spotLight color="white" position={[0, 0, 5]} intensity={100} />
       <EffectComposer>
-        <Bloom mipmapBlur luminanceThreshold={0} intensity={4} />
+        <Bloom mipmapBlur luminanceThreshold={0} intensity={8} />
       </EffectComposer>
     </>
   );

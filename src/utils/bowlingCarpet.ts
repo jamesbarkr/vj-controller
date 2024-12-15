@@ -1,12 +1,12 @@
 import { Vector3 } from "three";
 
 export enum BowlingColor {
-  NEON_YELLOW = "#ffff34",
-  CYAN = "#00ffff",
-  MAGENTA = "#ff34ff",
-  NEON_GREEN = "#34ff34",
-  ORANGE = "#ff832c",
-  DARK_BLUE = "#3e08e3",
+  NEON_YELLOW = "#1122ff",
+  CYAN = "#00aaaa",
+  MAGENTA = "#dd34dd",
+  NEON_GREEN = "#9669ff",
+  ORANGE = "#008bff",
+  DARK_BLUE = "#5a25ff",
 }
 
 export type BowlingShape = {
