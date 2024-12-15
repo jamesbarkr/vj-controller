@@ -1,4 +1,4 @@
-import { AmbientLight, Camera, CatmullRomCurve3, Color, Fog, Mesh, Group, MeshStandardMaterial, Vector3, BackSide } from "three";
+import { AmbientLight, Camera, CatmullRomCurve3, Color, Fog, Mesh, Group, MeshStandardMaterial, Vector3, BackSide, Material } from "three";
 import { useGLTF } from '@react-three/drei'
 import { useFrame, useThree } from "@react-three/fiber";
 import { useEffect, useRef, useState } from "react";
@@ -7,6 +7,7 @@ import { useGSAP } from "@gsap/react";
 import { CityState, LOCAL_CITY_STATE_KEY, transitionDuration } from "../../../utils/constants";
 import { useLocalStorage } from "@mantine/hooks";
 import { BowlingColor } from "../../../utils/bowlingCarpet";
+import { Bloom, EffectComposer } from "@react-three/postprocessing";
 
 const wireFrameMaterial = new MeshStandardMaterial()
 wireFrameMaterial.color = new Color("#ff34ff")
@@ -203,8 +204,6 @@ function updateCameraOrientation(camera: Camera, time: number, state: AnimationS
   }
 }
 
-const lightIntensity = 1
-
 enum AnimationState {
   FIRST_WORMHOLE_ACTIVE,
   FIRST_WORMHOLE_EXITING,
@@ -224,6 +223,7 @@ export function SanFranScenesco() {
   const lightRef = useRef<AmbientLight>(null!);
   const cityRef = useRef<Group>(null!);
   const wormholeRef = useRef<Mesh>(null!);
+  const wormholeMaterialRef = useRef<MeshStandardMaterial>(null!);
   const [animationStartTime, setAnimationStartTime] = useState(0);
   const [animationState, setAnimationState] = useState(AnimationState.FIRST_WORMHOLE_ACTIVE)
   const [fog] = useState(new Fog( 0x000000, 1, 500 ))
@@ -240,6 +240,16 @@ export function SanFranScenesco() {
         setAnimationState(AnimationState.CITY_EXITING)
     }
   }, [cityState])
+
+  const getLightIntensity = (animationState: AnimationState) : number => {
+    if (animationState === AnimationState.SECOND_WORMHOLE_ACTIVE) {
+      return 1000
+    } else if (animationState === AnimationState.FIRST_WORMHOLE_ACTIVE || animationState === AnimationState.FIRST_WORMHOLE_EXITING) {
+      return 30
+    } else {
+      return 12
+    }
+  }
 
   useGSAP(() => {
     switch(animationState) {
@@ -269,7 +279,7 @@ export function SanFranScenesco() {
         wormholeRef.current.visible = false
         camera.lookAt(new Vector3(startOfMarket.x, startOfMarket.y, startOfMarket.z))
         gsap.to(lightRef.current, {
-          intensity: lightIntensity,
+          intensity: 1,
           duration: transitionDuration
         })
         break
@@ -295,7 +305,7 @@ export function SanFranScenesco() {
         cityRef.current.visible = false
         wormholeRef.current.visible = true
         gsap.to(lightRef.current, {
-          intensity: lightIntensity,
+          intensity: 1,
           duration: transitionDuration
         })
         break
@@ -320,6 +330,7 @@ export function SanFranScenesco() {
   })
 
   return (
+    <>
     <group dispose={null}>
       <group ref={cityRef} position={[0, 0, 0]} scale={0.1} rotation={[-Math.PI / 2, 0, 0]}>
         {/* roads */}
@@ -506,17 +517,26 @@ export function SanFranScenesco() {
         </group>
       </group>
       <mesh ref={wormholeRef}> 
-        <mesh>
-          <tubeGeometry  args={[ startWormholeCurve, 400, 5, 12, ]} />
-          <meshStandardMaterial color={BowlingColor.CYAN} side={BackSide} wireframe/>
-        </mesh>
+        {animationState === AnimationState.SECOND_WORMHOLE_ACTIVE ?
+          (<mesh>
+            <tubeGeometry  args={[ startWormholeCurve, 400, 5, 12, ]}/>
+            <meshStandardMaterial ref={wormholeMaterialRef} color="red" side={BackSide} wireframe/>
+          </mesh>) :
+          (<mesh>
+            <tubeGeometry  args={[ startWormholeCurve, 400, 5, 12, ]}/>
+            <meshStandardMaterial ref={wormholeMaterialRef} color="cyan" side={BackSide} wireframe/>
+          </mesh>)}
         <mesh>
           <tubeGeometry  args={[ startWormholeCurve, 400, 5.5, 12, ]} />
           <meshStandardMaterial color="black" side={BackSide} />
         </mesh>
       </mesh>
-      <ambientLight ref={lightRef} color="white" intensity={lightIntensity} />
+      <ambientLight ref={lightRef} color="white" intensity={1} />
     </group>
+      <EffectComposer>
+        <Bloom mipmapBlur luminanceThreshold={0} intensity={getLightIntensity(animationState)} />
+      </EffectComposer>
+    </>
   )
 }
 
